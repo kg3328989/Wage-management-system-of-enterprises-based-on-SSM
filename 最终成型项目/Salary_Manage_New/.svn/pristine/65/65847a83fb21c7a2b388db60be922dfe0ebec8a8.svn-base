@@ -1,0 +1,28 @@
+package cn.com.smer.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import cn.com.smer.dao.dto.SalarySettlementDetails;
+import cn.com.smer.service.SalarySettlementDetailsService;
+import cn.com.smer.service.SalarySettlementService;
+
+@Controller
+@RequestMapping(value = "/salarySettlementDetails")
+public class SalarySettlementDetailsController {
+	@Autowired
+	private SalarySettlementService salarySettlementService;
+	private SalarySettlementDetailsService salarySettlementDetailsService;
+
+	@RequestMapping(value = "/{id}")
+	public String details(Model model, @PathVariable("id") Long salarySettlementId) {
+		List<SalarySettlementDetails> listSalarySettlementDetails = salarySettlementDetailsService.selectBysalarySettlementId(salarySettlementId);
+		return "/salarySettlements/salary_settlement_details";
+
+	}
+}

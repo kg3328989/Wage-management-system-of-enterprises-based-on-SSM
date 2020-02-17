@@ -1,0 +1,78 @@
+package cn.com.smer.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.Employees;
+import cn.com.smer.dao.dto.FixedSalarys;
+import cn.com.smer.dao.dto.Projects;
+import cn.com.smer.dao.dto.SalaryProjects;
+import cn.com.smer.dao.dto.SalarySettlements;
+import cn.com.smer.dao.inter.EmployeesMapper;
+import cn.com.smer.dao.inter.FixedSalarysMapper;
+import cn.com.smer.dao.inter.ProjectsMapper;
+import cn.com.smer.dao.inter.SalarySettlementsMapper;
+import cn.com.smer.dtoform.ProjectsForm;
+import cn.com.smer.dtoform.SalarySettlementsForm;
+
+@Service
+public class SalarySettlementService {
+	@Autowired
+	private SalarySettlementsMapper salarySettlementMapper;
+	@Autowired
+	private EmployeesMapper employeesMapper;
+	@Autowired
+	private FixedSalarysMapper fixedSalarysMapper;
+	@Autowired
+	private ProjectsMapper projectsMapper;
+
+	public String selctAll(SalarySettlementsForm form) {
+		Employees employee = new Employees();
+		employee.setDepartmentId(form.getDepartmentId());
+		// 按部门号查询员工信息
+		List<Employees> listEmployee = employeesMapper.selectBySelective(employee);
+		// 储存工资结算主表信息
+		List<SalarySettlements> listSalarySettlements = new ArrayList<SalarySettlements>();
+		// 按部门号查询员工固定工资信息
+		List<FixedSalarys> listFixedSalarys = fixedSalarysMapper.selectByIdSelective(form.getDepartmentId());
+		for (Employees employee1 : listEmployee) {
+			SalarySettlements salarySettlements = new SalarySettlements();
+			// 计算员工的固定工资
+			Long fixedSalarysum = (long) 0;
+			for (FixedSalarys fixedSalary : listFixedSalarys) {
+				if (fixedSalary.getEmployeeId() == employee1.getEmployeeId()) {
+					// 工资项目详细表的某项信息
+					ProjectsForm newproject = new ProjectsForm();
+					newproject.setProjectId(fixedSalary.getProjectId());
+					List<Projects> listProject = projectsMapper.selectBySelective(newproject);
+					for (Projects project : listProject) {
+						if (project.getAddorsubtract() == 0) {
+							fixedSalarysum += fixedSalary.getSalary();
+						} else if (project.getAddorsubtract() == 1) {
+							fixedSalarysum -= fixedSalary.getSalary();
+						}
+					}
+				}
+			}
+			//计算员工的计算项目
+			Long calculationtypesum = (long) 0;
+			ProjectsForm newproject = new ProjectsForm();
+			newproject.setProjectType((short) 2);
+			//所有计算项目
+			List<Projects> listCalculationTypeProjects = projectsMapper.selectBySelective(newproject);
+			
+			salarySettlements.setEmployeeId(employee1.getEmployeeId());
+			salarySettlements.setDepartmentId(employee1.getDepartmentId());
+			salarySettlements.setState((long) 0);
+			salarySettlements.setImportDate(form.getImportDate());
+			salarySettlements.setPayDate(new Date());
+			salarySettlements.setTrueSalary(fixedSalarysum);
+		}
+		return null;
+
+	}
+}

@@ -1,0 +1,75 @@
+package cn.com.smer.dto;
+
+import java.util.Date;
+
+public class ImportProjects {
+    private Long importProjectId;
+
+    private Long employeeId;
+
+    private Long projectId;
+
+    private Long departmentId;
+
+    private Date importDate;
+
+    private Long importInfo;
+
+    private String remark;
+
+    public Long getImportProjectId() {
+        return importProjectId;
+    }
+
+    public void setImportProjectId(Long importProjectId) {
+        this.importProjectId = importProjectId;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Date getImportDate() {
+        return importDate;
+    }
+
+    public void setImportDate(Date importDate) {
+        this.importDate = importDate;
+    }
+
+    public Long getImportInfo() {
+        return importInfo;
+    }
+
+    public void setImportInfo(Long importInfo) {
+        this.importInfo = importInfo;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+}

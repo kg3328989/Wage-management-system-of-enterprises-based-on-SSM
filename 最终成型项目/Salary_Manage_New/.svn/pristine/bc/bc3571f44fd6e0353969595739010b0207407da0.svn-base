@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.dhc.dao..inter.DepartmentsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.dhc.dao.dto.Departments">
+		<id column="DEPARTMENT_ID" jdbcType="DECIMAL"
+			property="departmentId" />
+		<result column="DEPARTMENT_NAME" jdbcType="VARCHAR"
+			property="departmentName" />
+		<result column="MANAGER_ID" jdbcType="DECIMAL"
+			property="managerId" />
+		<result column="LOCATION_ID" jdbcType="DECIMAL"
+			property="locationId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		DEPARTMENT_ID, DEPARTMENT_NAME, MANAGER_ID, LOCATION_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Short"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from DEPARTMENTS
+		where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from DEPARTMENTS
+	</select>
+	<select id="selectSelective" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from DEPARTMENTS
+		<where>
+			1=1
+			<if test="departmentId != null">
+				AND DEPARTMENT_ID = #{departmentID},
+			</if>
+			<if test="departmentName != null">
+				AND DEPARTMENT_NAME = #{departmentName},
+			</if>
+			<if test="managerId != null">
+				AND MANAGER_ID = #{managerId},
+			</if>
+			<if test="locationId != null">
+				AND LOCATION_ID = #{locationId},
+			</if>
+		</where>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+		delete from
+		DEPARTMENTS
+		where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.com.dhc.dao.dto.Departments">
+		insert into DEPARTMENTS (DEPARTMENT_ID, DEPARTMENT_NAME,
+		MANAGER_ID,
+		LOCATION_ID)
+		values (#{departmentId,jdbcType=DECIMAL},
+		#{departmentName,jdbcType=VARCHAR}, #{managerId,jdbcType=DECIMAL},
+		#{locationId,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.dhc.dao.dto.Departments">
+		insert into DEPARTMENTS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+			<if test="departmentName != null">
+				DEPARTMENT_NAME,
+			</if>
+			<if test="managerId != null">
+				MANAGER_ID,
+			</if>
+			<if test="locationId != null">
+				LOCATION_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentName != null">
+				#{departmentName,jdbcType=VARCHAR},
+			</if>
+			<if test="managerId != null">
+				#{managerId,jdbcType=DECIMAL},
+			</if>
+			<if test="locationId != null">
+				#{locationId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.dhc.dao.dto.Departments">
+		update DEPARTMENTS
+		<set>
+			<if test="departmentName != null">
+				DEPARTMENT_NAME = #{departmentName,jdbcType=VARCHAR},
+			</if>
+			<if test="managerId != null">
+				MANAGER_ID = #{managerId,jdbcType=DECIMAL},
+			</if>
+			<if test="locationId != null">
+				LOCATION_ID = #{locationId,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.dhc.dao.dto.Departments">
+		update DEPARTMENTS
+		set DEPARTMENT_NAME =
+		#{departmentName,jdbcType=VARCHAR},
+		MANAGER_ID =
+		#{managerId,jdbcType=DECIMAL},
+		LOCATION_ID =
+		#{locationId,jdbcType=DECIMAL}
+		where DEPARTMENT_ID =
+		#{departmentId,jdbcType=DECIMAL}
+	</update>
+</mapper>

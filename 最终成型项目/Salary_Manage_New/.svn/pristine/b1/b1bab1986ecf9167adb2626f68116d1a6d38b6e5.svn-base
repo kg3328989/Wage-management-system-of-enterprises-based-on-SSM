@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.CalculationsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.smer.dao.dto.Calculations">
+		<id column="CALCULATION_ID" jdbcType="DECIMAL"
+			property="calculationId" />
+		<result column="PROJECT_ID" jdbcType="DECIMAL"
+			property="projectId" />
+		<result column="OPERATOR" jdbcType="VARCHAR"
+			property="operator" />
+		<result column="OPERANDTWO" jdbcType="DECIMAL"
+			property="operandtwo" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		CALCULATION_ID, PROJECT_ID, OPERATOR, OPERANDTWO
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from CALCULATIONS
+		where CALCULATION_ID = #{calculationId,jdbcType=DECIMAL}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from CALCULATIONS
+		where CALCULATION_ID = #{calculationId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.com.smer.dao.dto.Calculations">
+		insert into CALCULATIONS (CALCULATION_ID, PROJECT_ID, OPERATOR,
+		OPERANDTWO)
+		values (#{calculationId,jdbcType=DECIMAL}, #{projectId,jdbcType=DECIMAL},
+		#{operator,jdbcType=VARCHAR},
+		#{operandtwo,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.smer.dao.dto.Calculations">
+		<selectKey keyProperty="calculationId" order="BEFORE" resultType="long"
+			keyColumn="calculationId">
+			select CALCULATIONS_SEQ.NEXTVAL from dual
+		</selectKey>
+		insert into CALCULATIONS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="calculationId != null">
+				CALCULATION_ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="operator != null">
+				OPERATOR,
+			</if>
+			<if test="operandtwo != null">
+				OPERANDTWO,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="calculationId != null">
+				#{calculationId,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operandtwo != null">
+				#{operandtwo,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.smer.dao.dto.Calculations">
+		update CALCULATIONS
+		<set>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operandtwo != null">
+				OPERANDTWO = #{operandtwo,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where CALCULATION_ID = #{calculationId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.smer.dao.dto.Calculations">
+		update CALCULATIONS
+		set PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+		OPERATOR = #{operator,jdbcType=VARCHAR},
+		OPERANDTWO = #{operandtwo,jdbcType=DECIMAL}
+		where CALCULATION_ID = #{calculationId,jdbcType=DECIMAL}
+	</update>
+</mapper>

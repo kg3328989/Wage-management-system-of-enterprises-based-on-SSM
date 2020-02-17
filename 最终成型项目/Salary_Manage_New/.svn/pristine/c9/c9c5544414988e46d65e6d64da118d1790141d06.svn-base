@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.ImportProjectsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.smer.dao.dto.ImportProjects">
+		<id column="IMPORT_PROJECT_ID" jdbcType="DECIMAL"
+			property="importProjectId" />
+		<result column="EMPLOYEE_ID" jdbcType="DECIMAL"
+			property="employeeId" />
+		<result column="PROJECT_ID" jdbcType="DECIMAL"
+			property="projectId" />
+		<result column="DEPARTMENT_ID" jdbcType="DECIMAL"
+			property="departmentId" />
+		<result column="IMPORT_DATE" jdbcType="TIMESTAMP"
+			property="importDate" />
+		<result column="IMPORT_INFO" jdbcType="DECIMAL"
+			property="importInfo" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		IMPORT_PROJECT_ID, EMPLOYEE_ID, PROJECT_ID, DEPARTMENT_ID, IMPORT_DATE, IMPORT_INFO,
+		REMARK
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IMPORT_PROJECTS
+		where IMPORT_PROJECT_ID = #{importProjectId,jdbcType=DECIMAL}
+	</select>
+
+
+
+
+
+	<select id="selectByInfo"
+		parameterType="cn.com.smer.dao.dto.ImportProjects"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IMPORT_PROJECTS
+		<where>
+			1=1
+			<if test="employeeId != null">
+				AND EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+			</if>
+			<if test="departmentId != null">
+				AND DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+			</if>
+			<if test="importDate != null">
+				AND TRUNC(IMPORT_DATE,'MONTH') = #{importDate,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</select>
+	<select id="selectBySomething"
+		parameterType="cn.com.smer.dao.dto.ImportProjects"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from IMPORT_PROJECTS
+		<where>
+			1=1
+			<if test="employeeId != null and employeeId !=''">
+				AND EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+			</if>
+			<if test="departmentId != null and departmentId !=''">
+				AND DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+			</if>
+			<if test="date1 != null and date2 != null"> AND import_Date BETWEEN #{date1} AND #{date2}</if>
+			<if test="date1 != null and date2 == null"> AND import_Date &gt;=#{date1}</if>
+			<if test="date1 == null and date2 != null"> AND import_Date &lt;=#{date2}</if>
+		</where>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from IMPORT_PROJECTS
+		where IMPORT_PROJECT_ID = #{importProjectId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.com.smer.dao.dto.ImportProjects">
+		insert into IMPORT_PROJECTS (IMPORT_PROJECT_ID, EMPLOYEE_ID, PROJECT_ID,
+		DEPARTMENT_ID, IMPORT_DATE, IMPORT_INFO,
+		REMARK)
+		values (#{importProjectId,jdbcType=DECIMAL}, #{employeeId,jdbcType=DECIMAL},
+		#{projectId,jdbcType=DECIMAL},
+		#{departmentId,jdbcType=DECIMAL}, #{importDate,jdbcType=TIMESTAMP}, #{importInfo,jdbcType=DECIMAL},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.smer.dao.dto.ImportProjects">
+		insert into IMPORT_PROJECTS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			IMPORT_PROJECT_ID,
+
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+			<if test="importDate != null">
+				IMPORT_DATE,
+			</if>
+			<if test="importInfo != null">
+				IMPORT_INFO,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+			import_projects_seq.NEXTVAL,
+
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="importDate != null">
+				#{importDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="importInfo != null">
+				#{importInfo,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.smer.dao.dto.ImportProjects">
+		update IMPORT_PROJECTS
+		<set>
+			<if test="employeeId != null">
+				EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="importDate != null">
+				IMPORT_DATE = #{importDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="importInfo != null">
+				IMPORT_INFO = #{importInfo,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where IMPORT_PROJECT_ID = #{importProjectId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.smer.dao.dto.ImportProjects">
+		update IMPORT_PROJECTS
+		set EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+		PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+		DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+		IMPORT_DATE = #{importDate,jdbcType=TIMESTAMP},
+		IMPORT_INFO = #{importInfo,jdbcType=DECIMAL},
+		REMARK = #{remark,jdbcType=VARCHAR}
+		where IMPORT_PROJECT_ID = #{importProjectId,jdbcType=DECIMAL}
+	</update>
+</mapper>

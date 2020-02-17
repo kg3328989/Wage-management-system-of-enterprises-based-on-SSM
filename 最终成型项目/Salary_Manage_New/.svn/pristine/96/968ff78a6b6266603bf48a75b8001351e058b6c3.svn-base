@@ -1,0 +1,18 @@
+package cn.com.smer.inter;
+
+import cn.com.smer.dto.SalarySettlementDetails;
+import cn.com.smer.dto.SalarySettlementDetailsKey;
+
+public interface SalarySettlementDetailsMapper {
+    int deleteByPrimaryKey(SalarySettlementDetailsKey key);
+
+    int insert(SalarySettlementDetails record);
+
+    int insertSelective(SalarySettlementDetails record);
+
+    SalarySettlementDetails selectByPrimaryKey(SalarySettlementDetailsKey key);
+
+    int updateByPrimaryKeySelective(SalarySettlementDetails record);
+
+    int updateByPrimaryKey(SalarySettlementDetails record);
+}

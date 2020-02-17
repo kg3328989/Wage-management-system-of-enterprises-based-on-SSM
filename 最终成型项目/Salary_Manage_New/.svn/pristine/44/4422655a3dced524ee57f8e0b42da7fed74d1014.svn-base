@@ -1,0 +1,38 @@
+package cn.com.smer.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.FixedSalarys;
+import cn.com.smer.dao.inter.FixedSalarysMapper;
+
+
+@Service
+public class FixedSalarysService {
+	@Autowired
+	private FixedSalarysMapper FixedSalarysDao;
+	//根据部门表名称或者编号 进行对员工固定工资的查询 （查FixedSalarys）（接收String类型参数）
+	public List<FixedSalarys> selectBySelective(String deptName) {
+		boolean temp = true;
+		for(int i = 0;i < deptName.length();i++) {
+			char o = deptName.charAt(i);
+			if(o < 48 || o > 57) {
+				temp = false;
+				break;
+			}
+		}
+		//进行部门编号查询
+		if(temp == true) {
+			//字符串转换数字
+			Long deptid = Long.valueOf(deptName);
+			FixedSalarysDao.selectByIdSelective(deptid);
+		}
+		//进行部门名称查询
+		if(temp == false) {
+			FixedSalarysDao.selectByNameSelective(deptName);
+		}
+		return null;
+	}
+}

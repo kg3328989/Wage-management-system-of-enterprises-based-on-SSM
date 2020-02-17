@@ -1,0 +1,30 @@
+package cn.com.smer.dtoform;
+
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class SalarySettlementsForm {
+	private Long departmentId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date importDate;
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
+	}
+	public Date getImportDate() {
+		return importDate;
+	}
+	public void setImportDate(Date importDate) {
+		this.importDate = importDate;
+	}
+	@Override
+	public String toString() {
+		return "SalarySettlementsForm [departmentId=" + departmentId + ", importDate=" + importDate + "]";
+	}
+	
+	
+	 
+}

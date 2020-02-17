@@ -1,0 +1,21 @@
+package cn.com.dhc.dao.inter;
+
+import java.util.List;
+
+import cn.com.dhc.dao.dto.Locations;
+
+public interface LocationsMapper {
+    int deleteByPrimaryKey(Short locationId);
+
+    int insert(Locations record);
+
+    int insertSelective(Locations record);
+
+    Locations selectByPrimaryKey(Short locationId);
+
+    int updateByPrimaryKeySelective(Locations record);
+
+    int updateByPrimaryKey(Locations record);
+    
+	List<Locations> selectAll();
+}

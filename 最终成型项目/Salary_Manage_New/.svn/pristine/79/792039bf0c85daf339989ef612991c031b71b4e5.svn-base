@@ -1,0 +1,227 @@
+package cn.com.smer.controller;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import cn.com.smer.dao.dto.Departments;
+import cn.com.smer.dao.dto.Employees;
+import cn.com.smer.dao.dto.SalarySettlements;
+import cn.com.smer.dtoform.DateDepartmentsForm;
+import cn.com.smer.dtoform.SalarySelectForm;
+import cn.com.smer.dtoform.SalarySettlementDetailsForm;
+import cn.com.smer.dtoform.SalarySettlementsForm;
+import cn.com.smer.service.BaoBiaoService;
+import cn.com.smer.service.DepartmentsService;
+import cn.com.smer.service.EmployeesService;
+
+
+@Controller
+@RequestMapping("/baobiao")
+public class BaoBiaoConller {
+	@Autowired
+	private BaoBiaoService baoBiaoService;
+	@Autowired
+	private DepartmentsService departmentsService;
+	@Autowired
+	private EmployeesService employeesService;
+	// 工资查询
+	@RequestMapping(value = "/list", params = { "form1" })
+	public String listForm1(Model model) {
+		List<Departments> departmentsList = departmentsService.getAllDepartments();
+		List<Employees> listEmployees = employeesService.getAll();
+		model.addAttribute("listEmployees", listEmployees);
+		model.addAttribute("deptList", departmentsList);
+		return "/baobiao/salary_select";
+
+	}
+	
+	@RequestMapping(value = "listSelect",method = RequestMethod.POST)
+	public String list1(Model model,SalarySelectForm form) {
+		System.out.println(form);
+		List<SalarySelectForm> listSalarySelectForm = baoBiaoService.SelectSalarySettlementDetailsForm(form);
+		for(SalarySelectForm salarySelectForm : listSalarySelectForm) {
+			System.out.println(salarySelectForm);
+		}
+		
+		model.addAttribute("listSalarySelectForm", listSalarySelectForm);
+		return "/baobiao/salary_select";
+	}
+	// 公司
+	@RequestMapping(value = "/list", params = { "form2" })
+	public String listForm2() {
+		return "/baobiao/company";
+
+	}
+	
+	
+	@RequestMapping(value = "/list",method = RequestMethod.POST)
+	public String list(SalarySettlementsForm form, Model model) {
+		System.out.println(form);
+		List<SalarySettlements> salarySettlementsList = baoBiaoService.selectByDate(form);
+		Date importDate;
+		if (salarySettlementsList.size() == 0) {
+			importDate = null;
+		}else {
+			importDate = salarySettlementsList.get(0).getImportDate();
+			long sumSalary =0;
+			long maxSalary =0;
+			long minSalary =1000000000;
+			long avgSalary =0;
+			for(int i = 0;i<salarySettlementsList.size();i++) {
+				sumSalary+=salarySettlementsList.get(i).getTrueSalary();
+				
+				if (salarySettlementsList.get(i).getTrueSalary()>maxSalary) {
+					maxSalary=salarySettlementsList.get(i).getTrueSalary();
+				}
+				if (salarySettlementsList.get(i).getTrueSalary()<minSalary) {
+					minSalary=salarySettlementsList.get(i).getTrueSalary();
+				}
+			}if (salarySettlementsList.size() != 0) {
+				avgSalary=sumSalary/salarySettlementsList.size();
+			}
+			
+			System.out.println(salarySettlementsList);
+			model.addAttribute("importDate", importDate);
+			model.addAttribute("sumSalary", sumSalary);
+			model.addAttribute("maxSalary", maxSalary);
+			model.addAttribute("minSalary", minSalary);
+			model.addAttribute("avgSalary", avgSalary);
+		}
+		
+		return "/baobiao/company";
+	}
+	
+	
+	@RequestMapping(value = "/listDepartments",method = RequestMethod.POST )
+	public String listDepartments(SalarySettlementsForm form, Model model) {
+		List<SalarySettlements> salarySettlementsList = baoBiaoService.selectBySelective(form);
+		List<SalarySettlements>  salarySettlementsDateList = baoBiaoService.selectAllDate();
+		List<DateDepartmentsForm> DateDepartmentsList = new ArrayList<DateDepartmentsForm>();
+		List<Departments> departmentsList = departmentsService.getAllDepartments();
+		for(Departments departments : departmentsList) {
+			for(SalarySettlements salarySettlements  : salarySettlementsDateList) {
+				DateDepartmentsForm dd = new DateDepartmentsForm();
+				dd.setDepartmentId(departments.getDepartmentId());
+				dd.setImportDate(salarySettlements.getImportDate());
+				DateDepartmentsList.add(dd);
+			}
+			for(SalarySettlements salarySettlements : salarySettlementsList) {
+				for(DateDepartmentsForm dd : DateDepartmentsList) {
+					if(salarySettlements.getDepartmentId().equals(dd.getDepartmentId())&&
+							salarySettlements.getImportDate().equals(dd.getImportDate())) {
+						dd.setAvgSalary(dd.getAvgSalary()+1);
+						dd.setSumSalary(dd.getSumSalary()+salarySettlements.getTrueSalary());
+						if(salarySettlements.getTrueSalary()>dd.getMaxSalary()) {
+							dd.setMaxSalary(salarySettlements.getTrueSalary());
+						}
+						if(salarySettlements.getTrueSalary()<dd.getMinSalary()) {
+							dd.setMinSalary(salarySettlements.getTrueSalary());
+						}
+					}
+				}
+			}
+		}
+		model.addAttribute("deptList", departmentsList);
+		model.addAttribute("salarySettlementsDateList", salarySettlementsDateList);
+		model.addAttribute("salarySettlementsList", salarySettlementsList);
+		model.addAttribute("DateDepartmentsList", DateDepartmentsList);
+		return "/baobiao/departments";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*@RequestMapping(value = "/listTwo",method = RequestMethod.POST )
+	public String list1(SalarySettlementsForm form, Model model) {
+		System.out.println(form);
+		List<SalarySettlements> salarySettlementsList = baoBiaoService.selectByDate(form);
+		List<Departments> departmentsList = departmentsService.getAllDepartments();
+		model.addAttribute("deptList", departmentsList);
+		Date importDate;
+		long departmentId;
+		if (salarySettlementsList.size() == 0) {
+			importDate = null;
+		}else {
+			importDate = salarySettlementsList.get(0).getImportDate();
+			departmentId = salarySettlementsList.get(0).getDepartmentId();
+			long sumSalary =0;
+			long maxSalary =0;
+			long minSalary =1000000000;
+			long avgSalary =0;
+			for(int i = 0;i<salarySettlementsList.size();i++) {
+				sumSalary+=salarySettlementsList.get(i).getTrueSalary();
+				
+				if (salarySettlementsList.get(i).getTrueSalary()>maxSalary) {
+					maxSalary=salarySettlementsList.get(i).getTrueSalary();
+				}
+				if (salarySettlementsList.get(i).getTrueSalary()<minSalary) {
+					minSalary=salarySettlementsList.get(i).getTrueSalary();
+				}
+			}if (salarySettlementsList.size() != 0) {
+				avgSalary=sumSalary/salarySettlementsList.size();
+			}
+			
+			System.out.println(salarySettlementsList);
+			model.addAttribute("departmentId", departmentId);
+			model.addAttribute("importDate", importDate);
+			model.addAttribute("sumSalary", sumSalary);
+			model.addAttribute("maxSalary", maxSalary);
+			model.addAttribute("minSalary", minSalary);
+			model.addAttribute("avgSalary", avgSalary);
+			model.addAttribute("hh", salarySettlementsList);
+		}
+		
+		return "/baobiao/departments";
+	}
+	*/
+	
+	
+	//查询所有工资信息
+//	@RequestMapping(value = "/list")
+//	public String list(Model model) {
+//		List<SalarySettlements> salarySettlementsList = baoBiaoService.selectAll();
+//		System.out.println(salarySettlementsList);
+//		model.addAttribute("salarySettlementsList", salarySettlementsList);
+//		return "/baobiao/company";
+//	}
+
+
+	// 部门
+	@RequestMapping(value = "/list", params = { "form3" })
+	//部门列表显示
+	public String listForm3(Model model) {
+		List<Departments> departmentsList = departmentsService.getAllDepartments();
+		model.addAttribute("deptList", departmentsList);
+		System.out.println(departmentsList);
+		return "/baobiao/departments";
+
+	}
+
+	// 员工
+	@RequestMapping(value = "/list", params = { "form4" })
+	public String listForm4() {
+		return "/baobiao/employees";
+
+	}
+}

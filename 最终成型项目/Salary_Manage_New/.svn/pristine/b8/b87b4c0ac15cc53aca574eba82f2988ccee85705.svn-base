@@ -1,0 +1,73 @@
+package cn.com.dhc.service;
+
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+
+import cn.com.dhc.controller.DepartmentsForm;
+import cn.com.dhc.dao.dto.Departments;
+import cn.com.dhc.dao.dto.Employees;
+import cn.com.dhc.dao.dto.Locations;
+import cn.com.dhc.dao.inter.DepartmentsMapper;
+import cn.com.dhc.dao.inter.EmployeesMapper;
+import cn.com.dhc.dao.inter.LocationsMapper;
+
+@Service
+public class DepartmentsService {
+	@Autowired
+	private DepartmentsMapper dto;
+	@Autowired
+	private LocationsMapper locationsDao;
+	@Autowired
+	private EmployeesMapper employeesDao;
+	public List<Locations> selectAllLocations() {
+		return locationsDao.selectAll();
+	}
+	public List<Departments> selectAllDepartments() {
+		return dto.selectAll();
+	}
+
+	public boolean addDepartment(DepartmentsForm form) {
+		boolean result = false;
+		Departments dept = new Departments();
+		BeanUtils.copyProperties(form, dept);
+		if (dto.insertSelective(dept) == 1)
+			result = true;
+		return result;
+	}
+
+	public List<Employees> selectAllManager() {
+		return employeesDao.selectAllManager();
+	}
+
+	public List<Departments> selectDept(DepartmentsForm form) {
+		Departments dept = new Departments();
+		BeanUtils.copyProperties(form, dept);
+		return dto.selectSelective(dept);
+	}
+
+	public Departments selectDepartmentByDepartmentId(String departmentId) {
+		return dto.selectByPrimaryKey(Short.parseShort(departmentId));
+	}
+
+	public boolean updateDeptByDepartmentId(DepartmentsForm form) {
+		Departments dept = new Departments();
+		BeanUtils.copyProperties(form, dept);
+		int result = dto.updateByPrimaryKeySelective(dept);
+		if (result == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean deleteDeptById(String departmentId) {
+		if (dto.deleteByPrimaryKey(Short.parseShort(departmentId)) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}

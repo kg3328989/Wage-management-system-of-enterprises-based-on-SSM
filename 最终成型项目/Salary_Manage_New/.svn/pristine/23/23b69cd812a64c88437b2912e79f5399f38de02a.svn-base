@@ -1,0 +1,56 @@
+package cn.com.smer.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.Employees;
+import cn.com.smer.dao.dto.FixedSalarys;
+import cn.com.smer.dao.inter.EmployeesMapper;
+import cn.com.smer.dao.inter.FixedSalarysMapper;
+import cn.com.smer.dao.inter.ProjectsMapper;
+
+@Service
+public class FixedSalarysService {
+	
+	@Autowired
+	private FixedSalarysMapper fixedSalarysDao;
+	@Autowired
+	private ProjectsMapper projectsDao;
+	@Autowired
+	private EmployeesMapper employeesDao;
+
+	public List<FixedSalarys> selectById(Long deptid) {
+		List<FixedSalarys> fixedSalarys = fixedSalarysDao.selectByIdSelective(deptid);
+		return fixedSalarys;
+	}
+	//初始化操作
+	public void initialize(Long deptId){
+		List<Long> fspd = fixedSalarysDao.selectAllProjectId();
+		System.out.println("标记点1");
+		List<Long> ppd = projectsDao.selectAllProjectId();
+		System.out.println("标记点2");
+		List<Employees> empe = employeesDao.selectByDepartmentId(deptId);
+		System.out.println("标记点3");
+		for(Long pp : ppd) {
+			if(!fspd.contains(pp)) {
+				System.out.println("标记点4");
+				//查找所有员工
+				for(Employees emp : empe) {
+					FixedSalarys a = new FixedSalarys();
+					a.setDepartmentId(emp.getDepartmentId());
+					a.setEmployeeId(emp.getEmployeeId());
+					a.setProjectId(pp);
+					Long b = Long.valueOf(0);
+					a.setSalary(b);
+					int c = fixedSalarysDao.insertSelective(a);
+					if(c == 0) {
+						System.out.println("初始化出错！");
+					}
+				}
+				System.out.println("标记点5");
+			}
+		}
+	}
+}

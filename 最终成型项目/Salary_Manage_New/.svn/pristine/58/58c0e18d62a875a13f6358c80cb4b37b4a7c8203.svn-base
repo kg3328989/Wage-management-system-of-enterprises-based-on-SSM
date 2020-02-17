@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.SalaryProjectsMapper">
+  <resultMap id="BaseResultMap" type="cn.com.smer.dao.dto.SalaryProjects">
+    <id column="SALARY_PROJECT_ID" jdbcType="DECIMAL" property="salaryProjectId" />
+    <result column="SALARY_PROJECT_NAME" jdbcType="VARCHAR" property="salaryProjectName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SALARY_PROJECT_ID, SALARY_PROJECT_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SALARY_PROJECTS
+    where SALARY_PROJECT_ID = #{salaryProjectId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    delete from SALARY_PROJECTS
+    where SALARY_PROJECT_ID = #{salaryProjectId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.com.smer.dao.dto.SalaryProjects">
+    insert into SALARY_PROJECTS (SALARY_PROJECT_ID, SALARY_PROJECT_NAME
+      )
+    values (#{salaryProjectId,jdbcType=DECIMAL}, #{salaryProjectName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.smer.dao.dto.SalaryProjects">
+    insert into SALARY_PROJECTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="salaryProjectId != null">
+        SALARY_PROJECT_ID,
+      </if>
+      <if test="salaryProjectName != null">
+        SALARY_PROJECT_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="salaryProjectId != null">
+        #{salaryProjectId,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryProjectName != null">
+        #{salaryProjectName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.smer.dao.dto.SalaryProjects">
+    update SALARY_PROJECTS
+    <set>
+      <if test="salaryProjectName != null">
+        SALARY_PROJECT_NAME = #{salaryProjectName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SALARY_PROJECT_ID = #{salaryProjectId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.smer.dao.dto.SalaryProjects">
+    update SALARY_PROJECTS
+    set SALARY_PROJECT_NAME = #{salaryProjectName,jdbcType=VARCHAR}
+    where SALARY_PROJECT_ID = #{salaryProjectId,jdbcType=DECIMAL}
+  </update>
+</mapper>

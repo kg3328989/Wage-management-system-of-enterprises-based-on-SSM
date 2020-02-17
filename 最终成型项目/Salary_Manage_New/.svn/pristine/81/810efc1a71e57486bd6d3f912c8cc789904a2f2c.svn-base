@@ -1,0 +1,26 @@
+package cn.com.smer.dao.inter;
+
+import java.util.List;
+
+import cn.com.smer.dao.dto.FixedSalarys;
+
+public interface FixedSalarysMapper {
+	int deleteByPrimaryKey(Long fixedSalaryId);
+
+    int insert(FixedSalarys record);
+
+    int insertSelective(FixedSalarys record);
+
+    FixedSalarys selectByPrimaryKey(Long fixedSalaryId);
+
+    int updateByPrimaryKeySelective(FixedSalarys record);
+
+    int updateByPrimaryKey(FixedSalarys record);
+	/*新建查询方法*/
+    /*<!-- 新增按部门编号查询 -->*/List<FixedSalarys> selectByDeptIdSelective(Long deptId);
+  
+    /*<!-- 新增按员工编号查询 -->*/List<FixedSalarys> selectByEmpIdSelective(Long empId);
+    
+    /*<!-- 新增查询全部工资项目编号 -->*/List<Long> selectAllProjectId(); 
+    
+}

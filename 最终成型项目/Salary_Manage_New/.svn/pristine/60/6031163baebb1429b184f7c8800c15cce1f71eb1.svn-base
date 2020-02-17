@@ -1,0 +1,156 @@
+package cn.com.dhc.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.dhc.dao.dto.Departments;
+import cn.com.dhc.dao.dto.Employees;
+import cn.com.dhc.dao.dto.Locations;
+import cn.com.dhc.service.DepartmentsService;
+
+@Controller
+@RequestMapping("/dept")
+public class DepartmentsController {
+	@Autowired
+	private DepartmentsService deptservice;
+
+	@RequestMapping(value = "/create", params = { "form" })
+	public String createForm(Model model) {
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+		return "/dept/addD";
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String create(DepartmentsForm form, Model model) {
+		boolean result = deptservice.addDepartment(form);
+		if (result) {
+			return "redirect:/dept/create?complete";
+		} else {
+			model.addAttribute("resultTag", "添加部门失败");
+			return "/main";
+		}
+
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET, params = { "complete" })
+	public String createComplete(Model model) {
+		model.addAttribute("resultTag", "添加部门成功");
+		return "/main";
+	}
+
+	@RequestMapping(value = "/list", params = { "form" })
+	public String listForm(Model model) {
+		List<Departments> department = deptservice.selectAllDepartments();
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		model.addAttribute("department", department);
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+		return "dept/selectD";
+	}
+
+	@RequestMapping(value = "/list")
+	public String list(DepartmentsForm form, Model model) {
+		List<Departments> department = deptservice.selectDept(form);
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		model.addAttribute("department", department);
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+		return "dept/selectD";
+	}
+
+	@RequestMapping(value = "/listTwo", params = { "form" })
+	public String listFormTwo(Model model) {
+		List<Departments> department = deptservice.selectAllDepartments();
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		model.addAttribute("department", department);
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+		return "dept/selectDTwo";
+	}
+
+	@RequestMapping(value = "/listTwo", method = RequestMethod.GET)
+	public @ResponseBody List<Departments> listTwo(DepartmentsForm form,Model model) {
+		
+
+		//List<Departments> department = deptservice.selectDept(form);
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		//model.addAttribute("department", department);
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+
+		return deptservice.selectDept(form);
+	}
+
+	@RequestMapping(value = "/{departmentId}", method = RequestMethod.GET)
+	public String detail(@PathVariable("departmentId") String departmentId, Model model) {
+		Departments dept = deptservice.selectDepartmentByDepartmentId(departmentId);
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		model.addAttribute("deptInfo", dept);
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+		return "dept/showD";
+	}
+
+	@RequestMapping(value = "/{departmentId}/update", params = { "form" })
+	public String updateForm(@PathVariable("departmentId") String departmentId, Model model) {
+		Departments dept = deptservice.selectDepartmentByDepartmentId(departmentId);
+		List<Locations> locations = deptservice.selectAllLocations();
+		List<Employees> managers = deptservice.selectAllManager();
+		model.addAttribute("deptInfo", dept);
+		model.addAttribute("locations", locations);
+		model.addAttribute("managers", managers);
+		return "dept/updateD";
+	}
+
+	@RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
+	public String update(DepartmentsForm form, Model model, @PathVariable("id") String departmentId) {
+		boolean result = deptservice.updateDeptByDepartmentId(form);
+		if (result) {
+			return "redirect:/dept/" + departmentId + "/update?complete";
+		} else {
+			model.addAttribute("resultTag", "修改部门失败");
+			return "/main";
+		}
+	}
+
+	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET, params = { "complete" })
+	public String updateComplete(Model model) {
+		model.addAttribute("resultTag", "修改部门成功");
+		return "/main";
+	}
+
+	@RequestMapping(value = "/{departmentId}/delete")
+	public String delete(@PathVariable("departmentId") String departmentId, Model model) {
+		System.out.println(departmentId);
+		boolean result = deptservice.deleteDeptById(departmentId);
+		if (result) {
+			return "redirect:/dept/" + departmentId + "/delete?complete";
+		} else {
+			model.addAttribute("resultTag", "删除部门失败");
+			return "/main";
+		}
+	}
+
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET, params = { "complete" })
+	public String deleteComplete(Model model) {
+		model.addAttribute("resultTag", "删除部门成功");
+		return "/main";
+
+	}
+
+}

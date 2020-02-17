@@ -1,0 +1,32 @@
+package cn.com.smer.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.smer.dao.dto.FixedSalarys;
+import cn.com.smer.service.FixedSalarysService;
+
+@Controller
+@RequestMapping(value = "/fixed")
+public class FixedSalarysController {
+	
+//	@Autowired//自动注入
+	private FixedSalarysService fixedSalaryService;
+	
+	// 跳转查询页面
+	@RequestMapping(value = "/list", params = { "form" })
+	public String listForm() {
+		return "/fixedSalaryManagement/fixed_salary_management_select";
+	}
+	
+	// 显示查询结果
+	@RequestMapping(value="/list",method=RequestMethod.GET)
+	public @ResponseBody List<FixedSalarys> list(String a) {
+		List<FixedSalarys> fs = fixedSalaryService.selectBySelective(a);
+		return fs;
+	}
+}

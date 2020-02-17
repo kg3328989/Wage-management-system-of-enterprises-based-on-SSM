@@ -1,0 +1,51 @@
+package cn.com.smer.service;
+
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.SalarySettlements;
+import cn.com.smer.dao.inter.SalarySettlementsMapper;
+import cn.com.smer.dtoform.SalarySettlementsForm;
+
+@Service
+public class BaoBiaoService {
+	@Autowired
+	private SalarySettlementsMapper salarySettlementsDao;
+	
+	
+	
+	public List<SalarySettlements> selectAll() {
+		return salarySettlementsDao.selectAll();
+	}
+	
+	
+	public List<SalarySettlements> selectByDate(SalarySettlementsForm form) {
+		SalarySettlements salarySettlements = new SalarySettlements();
+		BeanUtils.copyProperties(form, salarySettlements);
+		return salarySettlementsDao.selectBySelective(salarySettlements);
+	}
+
+
+	public List<SalarySettlements> selectDistinctDept() {
+		return salarySettlementsDao.selectDistinctDept();
+	}
+
+
+	public List<SalarySettlements> selectBySelective(SalarySettlementsForm form) {
+		SalarySettlements salarySettlements = new SalarySettlements();
+		BeanUtils.copyProperties(form, salarySettlements);
+		return salarySettlementsDao.selectBySelective(salarySettlements);
+	}
+
+
+	public List<SalarySettlements> selectAllDate() {
+		
+		return salarySettlementsDao.selectAllDate();
+	}
+
+
+	
+}

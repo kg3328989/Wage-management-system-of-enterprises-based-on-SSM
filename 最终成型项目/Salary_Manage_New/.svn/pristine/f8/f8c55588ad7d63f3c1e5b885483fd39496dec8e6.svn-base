@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.dhc.dao..inter.LocationsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.dhc.dao.dto.Locations">
+		<id column="LOCATION_ID" jdbcType="DECIMAL" property="locationId" />
+		<result column="STREET_ADDRESS" jdbcType="VARCHAR"
+			property="streetAddress" />
+		<result column="POSTAL_CODE" jdbcType="VARCHAR"
+			property="postalCode" />
+		<result column="CITY" jdbcType="VARCHAR" property="city" />
+		<result column="STATE_PROVINCE" jdbcType="VARCHAR"
+			property="stateProvince" />
+		<result column="COUNTRY_ID" jdbcType="CHAR"
+			property="countryId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		LOCATION_ID, STREET_ADDRESS, POSTAL_CODE, CITY,
+		STATE_PROVINCE, COUNTRY_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Short"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from LOCATIONS
+		where LOCATION_ID = #{locationId,jdbcType=DECIMAL}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from LOCATIONS
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+		delete from
+		LOCATIONS
+		where LOCATION_ID = #{locationId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="cn.com.dhc.dao.dto.Locations">
+		insert into LOCATIONS
+		(LOCATION_ID, STREET_ADDRESS, POSTAL_CODE,
+		CITY, STATE_PROVINCE,
+		COUNTRY_ID
+		)
+		values (#{locationId,jdbcType=DECIMAL},
+		#{streetAddress,jdbcType=VARCHAR},
+		#{postalCode,jdbcType=VARCHAR},
+		#{city,jdbcType=VARCHAR}, #{stateProvince,jdbcType=VARCHAR},
+		#{countryId,jdbcType=CHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.dhc.dao.dto.Locations">
+		insert into LOCATIONS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="locationId != null">
+				LOCATION_ID,
+			</if>
+			<if test="streetAddress != null">
+				STREET_ADDRESS,
+			</if>
+			<if test="postalCode != null">
+				POSTAL_CODE,
+			</if>
+			<if test="city != null">
+				CITY,
+			</if>
+			<if test="stateProvince != null">
+				STATE_PROVINCE,
+			</if>
+			<if test="countryId != null">
+				COUNTRY_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="locationId != null">
+				#{locationId,jdbcType=DECIMAL},
+			</if>
+			<if test="streetAddress != null">
+				#{streetAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="postalCode != null">
+				#{postalCode,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="stateProvince != null">
+				#{stateProvince,jdbcType=VARCHAR},
+			</if>
+			<if test="countryId != null">
+				#{countryId,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.dhc.dao.dto.Locations">
+		update LOCATIONS
+		<set>
+			<if test="streetAddress != null">
+				STREET_ADDRESS = #{streetAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="postalCode != null">
+				POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				CITY = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="stateProvince != null">
+				STATE_PROVINCE = #{stateProvince,jdbcType=VARCHAR},
+			</if>
+			<if test="countryId != null">
+				COUNTRY_ID = #{countryId,jdbcType=CHAR},
+			</if>
+		</set>
+		where LOCATION_ID = #{locationId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.dhc.dao.dto.Locations">
+		update LOCATIONS
+		set STREET_ADDRESS =
+		#{streetAddress,jdbcType=VARCHAR},
+		POSTAL_CODE =
+		#{postalCode,jdbcType=VARCHAR},
+		CITY = #{city,jdbcType=VARCHAR},
+		STATE_PROVINCE = #{stateProvince,jdbcType=VARCHAR},
+		COUNTRY_ID =
+		#{countryId,jdbcType=CHAR}
+		where LOCATION_ID =
+		#{locationId,jdbcType=DECIMAL}
+	</update>
+</mapper>

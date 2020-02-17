@@ -1,0 +1,32 @@
+package cn.com.dhc.service;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.stereotype.Service;
+
+import cn.com.dhc.dao.utils.DBConnection;
+
+@Service
+public class LoginService {
+	public boolean loginValidate(String username, String userpwd){
+        boolean result = false;
+        Connection conn = DBConnection.getConn();
+        String sql = "SELECT username, userpwd FROM loginTable WHERE username=? AND userpwd=?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1,username);
+            pstmt.setString(2,userpwd);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()){
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        DBConnection.closeConn(conn);
+        return result;
+    }
+}

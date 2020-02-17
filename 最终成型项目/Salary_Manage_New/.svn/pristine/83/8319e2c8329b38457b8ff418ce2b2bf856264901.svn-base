@@ -1,0 +1,8 @@
+package cn.com.smer.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class ProjectsController {
+
+}

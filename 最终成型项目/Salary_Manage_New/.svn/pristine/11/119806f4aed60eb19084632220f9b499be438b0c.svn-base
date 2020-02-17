@@ -1,0 +1,141 @@
+package cn.com.dhc.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import cn.com.dhc.dao.dto.Departments;
+import cn.com.dhc.dao.dto.Employees;
+import cn.com.dhc.dao.dto.Jobs;
+import cn.com.dhc.service.EmployeeService;
+
+@Controller
+@RequestMapping(value = "/emp")
+public class EmployeeController {
+	@Autowired
+	private EmployeeService employeeService;
+	@RequestMapping(value = "/create",params = {"form"})
+	public String createForm(Model model) {
+		List<Departments> deptList = employeeService.getAllDepartments();
+		List<Employees> deptManagerList = employeeService.getAllManager();
+		List<Jobs> jobList = employeeService.getAllJobs();
+
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("managerList", deptManagerList);
+		model.addAttribute("jobList", jobList);
+		return "/emp/addE";
+	}
+	
+	@RequestMapping(value = "/create")
+	public String create(EmployeesForm form,Model model) {
+		System.out.println(form);
+		boolean result = employeeService.addEmp(form);
+		if(result){
+			return "redirect:/emp/create?complete";
+		}else {
+			model.addAttribute("resultTag","添加员工失败");
+			return "/main";
+		}
+	}
+	
+	@RequestMapping(value = "/create",method = RequestMethod.GET,params = {"complete"})
+	public String createComplete(Model model) {
+		model.addAttribute("resultTag","添加员工成功");
+		return "/main";
+	}
+	
+	@RequestMapping(value = "/list", params = {"form"})
+	public String listForm(Model model) {
+		List<Departments> deptList = employeeService.getAllDepartments();
+		List<Employees> deptManagerList = employeeService.getAllManager();
+		List<Jobs> jobList = employeeService.getAllJobs();
+		List<EmployeesForm> empList = employeeService.selectEmp(new EmployeesForm());
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("managerList", deptManagerList);
+		model.addAttribute("jobList", jobList);
+		model.addAttribute("empList", empList);
+		return "emp/selectE";
+	}
+	
+	@RequestMapping(value = "/list")
+	public String list(EmployeesForm form,Model model) {
+		List<Departments> deptList = employeeService.getAllDepartments();
+		List<Employees> deptManagerList = employeeService.getAllManager();
+		List<Jobs> jobList = employeeService.getAllJobs();
+		List<EmployeesForm> empList = employeeService.selectEmp(form);
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("managerList", deptManagerList);
+		model.addAttribute("jobList", jobList);
+		model.addAttribute("empList", empList);
+		return "emp/selectE";
+	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
+	public String detail(@PathVariable("id")Integer employeeId,Model model) {
+		EmployeesForm form = new EmployeesForm();
+		form.setEmployeeId(employeeId);
+		List<Departments> deptList = employeeService.getAllDepartments();
+		List<Employees> deptManagerList = employeeService.getAllManager();
+		List<Jobs> jobList = employeeService.getAllJobs();
+		List<EmployeesForm> empList = employeeService.selectEmp(form);
+		model.addAttribute("employeeId", employeeId);
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("managerList", deptManagerList);
+		model.addAttribute("jobList", jobList);
+		model.addAttribute("empList", empList);
+		return "/emp/showE";
+	}
+	@RequestMapping(value = "/{employeeId}/update", params = {"form"})
+	public String updateForm(@PathVariable("employeeId")String employeeId,Model model) {
+		EmployeesForm emp = new EmployeesForm();
+		emp.setEmployeeId(Integer.parseInt(employeeId));
+		List<Departments> deptList = employeeService.getAllDepartments();
+		List<Employees> deptManagerList = employeeService.getAllManager();
+		List<Jobs> jobList = employeeService.getAllJobs();
+		List<EmployeesForm> empList = employeeService.selectEmp(emp);
+		model.addAttribute("employeeId", employeeId);
+		model.addAttribute("deptList", deptList);
+		model.addAttribute("managerList", deptManagerList);
+		model.addAttribute("jobList", jobList);
+		model.addAttribute("empList", empList);
+		return "emp/updateE";
+	}
+	
+	@RequestMapping(value = "/{employeeId}/update")
+	public String update(EmployeesForm form,Model model,@PathVariable("employeeId")String employeeId) {
+		boolean result = employeeService.updateEmp(form);
+		if(result){
+			return "redirect:/emp/"+employeeId+"/update?complete";
+		}else {
+			model.addAttribute("resultTag","修改员工失败");
+		}
+		return "/main";
+	}
+	
+	@RequestMapping(value = "/{id}/update" , method = RequestMethod.GET,params = {"complete"})
+	public String updateComplete(Model model) {
+		model.addAttribute("resultTag","修改员工成功");
+		return "/main";
+	}
+	@RequestMapping(value = "/{employeeId}/delete")
+	public String delete(@PathVariable("employeeId")String employeeId,Model model) {
+		boolean result = employeeService.deleteEmpById(employeeId);
+		if(result){
+			return "redirect:/emp/"+employeeId+"delete?complete";
+		}else {
+			model.addAttribute("resultTag","删除员工失败");
+			return "/main";
+		}
+	}
+	
+	@RequestMapping(value = "/{id}/delete",method = RequestMethod.GET,params = {"complete"})
+	public String deleteComplete(Model model) {
+		model.addAttribute("resultTag","删除员工成功");
+		return "/main";
+	}
+}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.ProjectsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.smer.dao.dto.Projects">
+		<id column="PROJECT_ID" jdbcType="DECIMAL" property="projectId" />
+		<result column="PROJECT_NAME" jdbcType="VARCHAR"
+			property="projectName" />
+		<result column="PROJECT_TYPE" jdbcType="DECIMAL"
+			property="projectType" />
+		<result column="SHOW" jdbcType="DECIMAL" property="show" />
+		<result column="CALCULATION_ID" jdbcType="DECIMAL"
+			property="calculationId" />
+		<result column="ADDORSUBTRACT" jdbcType="DECIMAL"
+			property="addorsubtract" />
+		<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		PROJECT_ID, PROJECT_NAME, PROJECT_TYPE, SHOW,
+		CALCULATION_ID, ADDORSUBTRACT,
+		REMARK
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from PROJECTS
+		where PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+	</select>
+	<select id="selectAll" parameterType="cn.com.smer.dao.dto.Projects" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PROJECTS
+  </select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		PROJECTS
+		where PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+	</delete>
+
+	<!-- 条件查询 -->
+	<select id="selectBySelective" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from PROJECTS
+		<where>
+			<if test="projectId != null">AND PROJECT_ID=#{projectId}</if>
+			<if test="projectName != null and projectName != ''">
+				AND PROJECT_NAME LIKE '%'||#{projectName}||'%'
+			</if>
+			<if test="projectType != null">AND PROJECT_TYPE=#{projectType}</if>
+			<if test="show != null">AND show=#{show}</if>
+			<if test="calculationId != null">AND CALCULATION_ID=#{calculationId}</if>
+			<if test="addorsubtract != null">AND ADDORSUBTRACT=#{addorsubtract}</if>
+			
+		</where>
+	</select>
+
+	<insert id="insert" parameterType="cn.com.smer.dao.dto.Projects">
+		insert into PROJECTS
+		(PROJECT_ID, PROJECT_NAME, PROJECT_TYPE,
+		SHOW, CALCULATION_ID,
+		ADDORSUBTRACT,
+		REMARK)
+		values (#{projectId,jdbcType=DECIMAL},
+		#{projectName,jdbcType=VARCHAR},
+		#{projectType,jdbcType=DECIMAL},
+		#{show,jdbcType=DECIMAL}, #{calculationId,jdbcType=DECIMAL},
+		#{addorsubtract,jdbcType=DECIMAL},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.smer.dao.dto.Projects">
+		<selectKey keyProperty="projectId" order="BEFORE"
+			resultType="long" keyColumn="projectId">
+			select PROJECTS_SEQ.NEXTVAL from dual
+		</selectKey>
+		insert into PROJECTS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="projectName != null">
+				PROJECT_NAME,
+			</if>
+			<if test="projectType != null">
+				PROJECT_TYPE,
+			</if>
+			<if test="show != null">
+				SHOW,
+			</if>
+			<if test="calculationId != null">
+				CALCULATION_ID,
+			</if>
+			<if test="addorsubtract != null">
+				ADDORSUBTRACT,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				#{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectType != null">
+				#{projectType,jdbcType=DECIMAL},
+			</if>
+			<if test="show != null">
+				#{show,jdbcType=DECIMAL},
+			</if>
+			<if test="calculationId != null">
+				#{calculationId,jdbcType=DECIMAL},
+			</if>
+			<if test="addorsubtract != null">
+				#{addorsubtract,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.smer.dao.dto.Projects">
+		update PROJECTS
+		<set>
+			<if test="projectName != null">
+				PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectType != null">
+				PROJECT_TYPE = #{projectType,jdbcType=DECIMAL},
+			</if>
+			<if test="show != null">
+				SHOW = #{show,jdbcType=DECIMAL},
+			</if>
+			<if test="calculationId != null">
+				CALCULATION_ID = #{calculationId,jdbcType=DECIMAL},
+			</if>
+			<if test="addorsubtract != null">
+				ADDORSUBTRACT = #{addorsubtract,jdbcType=DECIMAL},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.smer.dao.dto.Projects">
+		update PROJECTS
+		set PROJECT_NAME =
+		#{projectName,jdbcType=VARCHAR},
+		PROJECT_TYPE =
+		#{projectType,jdbcType=DECIMAL},
+		SHOW = #{show,jdbcType=DECIMAL},
+		CALCULATION_ID = #{calculationId,jdbcType=DECIMAL},
+		ADDORSUBTRACT =
+		#{addorsubtract,jdbcType=DECIMAL},
+		REMARK = #{remark,jdbcType=VARCHAR}
+		where PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+	</update>
+</mapper>

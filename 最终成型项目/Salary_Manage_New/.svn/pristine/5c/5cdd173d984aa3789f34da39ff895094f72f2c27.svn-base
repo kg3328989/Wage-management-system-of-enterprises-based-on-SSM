@@ -1,0 +1,14 @@
+package cn.com.smer.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping(value = "/salarysettlement")
+public class SalarySettlementController {
+	@RequestMapping(value = "/list",params = {"form"})
+	public String list() {
+		System.out.println(123);
+		return "/salarySettlements/salary_settlement";
+	}
+}

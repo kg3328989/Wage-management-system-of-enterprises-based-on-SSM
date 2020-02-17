@@ -1,0 +1,77 @@
+package cn.com.dhc.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.dhc.controller.EmployeesForm;
+import cn.com.dhc.dao.dto.Departments;
+import cn.com.dhc.dao.dto.Employees;
+import cn.com.dhc.dao.dto.Jobs;
+import cn.com.dhc.dao.inter.DepartmentsMapper;
+import cn.com.dhc.dao.inter.EmployeesMapper;
+import cn.com.dhc.dao.inter.JobsMapper;
+
+@Service
+public class EmployeeService {
+	@Autowired
+	private DepartmentsMapper deptdao;
+	@Autowired
+	private EmployeesMapper empdao;
+	@Autowired
+	private JobsMapper jobdao;
+	public List<Departments> getAllDepartments() {
+		return deptdao.selectAll();
+	}
+
+	public List<Employees> getAllManager() {
+		return empdao.selectAllManager();
+	}
+
+	public List<Jobs> getAllJobs() {
+		return jobdao.getAll();
+	}
+
+	public boolean addEmp(EmployeesForm form) {
+		Employees emp = new Employees();
+		BeanUtils.copyProperties(form, emp);
+		if( empdao.insert(emp) == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public List<EmployeesForm> selectEmp(EmployeesForm form) {
+		Employees employee = new Employees();
+		BeanUtils.copyProperties(form, employee);
+		List<Employees> employeeResult = empdao.selectSelective(employee);
+		List<EmployeesForm> list = new ArrayList<EmployeesForm>();
+		for(Employees e : employeeResult) {
+			EmployeesForm ef = new EmployeesForm();
+			BeanUtils.copyProperties(e, ef);
+			list.add(ef);
+		}
+		return list;
+	}
+
+	public boolean updateEmp(EmployeesForm form) {
+		Employees emp = new Employees();
+		BeanUtils.copyProperties(form, emp);
+		if(empdao.updateByPrimaryKeySelective(emp) == 1)
+			return true;
+		else 
+			return false;
+				
+	}
+
+	public boolean deleteEmpById(String employeeId) {
+		if(empdao.deleteByPrimaryKey(Integer.parseInt(employeeId)) == 1)
+			return true;
+		else return false;
+	}
+	
+}

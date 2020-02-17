@@ -1,0 +1,189 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>INSPINIA | Empty Page</title>
+
+		<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../static/font-awesome/css/font-awesome.css" rel="stylesheet">
+		<link href="../static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+		<link href="../static/css/animate.css" rel="stylesheet">
+		<link href="../static/css/style.css" rel="stylesheet">
+
+	</head>
+
+	<body >
+
+		<div id="wrapper">
+
+			<%@include file="../inc/menu.jsp" %>
+
+			<div id="page-wrapper" class="gray-bg">
+				<div class="row border-bottom">
+					<!--上侧导航条开始-->
+					<%@include file="../inc/header.jsp" %>
+					<!--上侧导航条结束-->
+				</div>
+				<div class="row wrapper border-bottom white-bg page-heading">
+					<div class="col-sm-4">
+						<h2>DHC工资管理系统</h2>
+						<ol class="breadcrumb">
+							<li>
+								<a href="../main.html">Home</a>
+							</li>
+							<li class="active">
+								<a href="select_import.html"><strong>工资项目管理</strong></a>
+							</li>
+						</ol>
+					</div>
+				</div>
+
+				<div class="wrapper wrapper-content  animated fadeInRight article">
+					<div class="row">
+						<div class="col-lg-10 col-lg-offset-1">
+							<div class="ibox">
+								<div class="ibox-content">
+								<form action="${pageContext.request.contextPath}/import_project/listTwo">
+									<!--内容增加区域-->
+									<div class=" control-group">
+                                        <label class="col-sm-2 control-label">部门名称</label>
+                                        <div class="col-sm-10">
+	                                        <select class="select2_demo_1 form-control " id="departmentId" name="departmentId">
+	                                            <option value="">请选择...</option>
+	                                            <c:forEach items="${requestScope.departmentsList}" var="departments">
+	                                            	<option value="${departments.departmentId}">${departments.departmentName}</option>
+	                                            </c:forEach>
+	                                        </select>
+	                                        <br/>
+                                        </div>
+                                    </div>
+									<br/>
+									<div class="form-group" id="data_4">
+		                                <label for="departmentName" class="col-sm-2 control-label">开始日期</label>
+		                                <div class="input-group date">
+		                                    <span class="input-group-addon">
+		                                    	<i class="fa fa-calendar"></i>
+		                                    </span>
+		                                    <input type="text" class="form-control" readonly="readonly">
+		                                </div>
+		                            </div>
+									<br/>
+									<div class="form-group" id="data_4">
+		                                <label for="departmentName" class="col-sm-2 control-label">结束日期</label>
+		                                <div class="input-group date">
+		                                    <span class="input-group-addon">
+		                                    	<i class="fa fa-calendar"></i>
+		                                    </span>
+		                                    <input type="text" class="form-control" readonly="readonly">
+		                                </div>
+		                            </div>
+									<br/>
+									<div class="form-group">
+									    <label for="departmentName" class="col-sm-2 control-label">员工编号</label>
+									    <div class="col-sm-10">
+									      <input type="text" class="form-control" id="departmentName" placeholder="请填写">
+									      <br />
+									    </div>
+									</div>
+									<br/>
+									<div class="form-group">
+									    <div class="col-sm-offset-2 col-sm-10 ">
+									      <button type="submit" class="btn btn-default">查询</button>
+									      <button type="reset" class="btn btn-default">重填</button>
+									    </div>
+									 </div>
+									 <br />
+									<br/>
+									<br/>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="well">
+                            <h3>导入信息</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>员工编号</th>
+                                        <th>员工姓名</th>
+                                        <th>部门名称</th>
+                                        <th>病假天数</th>
+                                        <th>事假天数</th>
+                                        <th>迟到天数</th>
+                                        <th>加班天数</th>
+                                        <th>补发</th>
+                                        <th>修改</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>001</td>
+                                        <td>笔记本电脑</td>
+                                        <td>开发部</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>500</td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/import_project/11/update?form">修改</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+				<!--底部显示-->
+				<div class="footer">
+					<div class="pull-right">
+						<strong>大连华信培训中心定制二班</strong>第五组
+					</div>
+					<div>
+						<strong>Web</strong> for DHC  &copy; 2019-2020
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Mainly scripts -->
+		<script src="../static/js/jquery-2.1.1.js"></script>
+		<script src="../static/js/bootstrap.min.js"></script>
+		<script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		
+		<!-- Data picker -->
+   		<script src="../static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+   		
+
+		<!-- Custom and plugin javascript -->
+		<script src="../static/js/inspinia.js"></script>
+		<script src="../static/js/plugins/pace/pace.min.js"></script>
+
+		<script>
+			$('body.canvas-menu .sidebar-collapse').slimScroll({
+				height: '100%',
+				railOpacity: 0.9
+			});
+			$(document).ready(function(){
+	            $('#data_4 .input-group.date').datepicker({
+	                minViewMode: 1,
+	                keyboardNavigation: false,
+	                forceParse: false,
+	                autoclose: true,
+	                todayHighlight: true
+	            }); 
+	        });
+		</script>
+
+	</body>
+
+</html>

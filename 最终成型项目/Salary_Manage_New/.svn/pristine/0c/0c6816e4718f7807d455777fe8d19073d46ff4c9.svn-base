@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.DepartmentsMapper">
+  <resultMap id="BaseResultMap" type="cn.com.smer.dao.dto.Departments">
+    <id column="DEPARTMENT_ID" jdbcType="DECIMAL" property="departmentId" />
+    <result column="DEPARTMENT_NAME" jdbcType="VARCHAR" property="departmentName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DEPARTMENT_ID, DEPARTMENT_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DEPARTMENTS
+    where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from DEPARTMENTS
+    where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.com.smer.dao.dto.Departments">
+    insert into DEPARTMENTS (DEPARTMENT_ID, DEPARTMENT_NAME)
+    values (#{departmentId,jdbcType=DECIMAL}, #{departmentName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.smer.dao.dto.Departments">
+    insert into DEPARTMENTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departmentId != null">
+        DEPARTMENT_ID,
+      </if>
+      <if test="departmentName != null">
+        DEPARTMENT_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=DECIMAL},
+      </if>
+      <if test="departmentName != null">
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.smer.dao.dto.Departments">
+    update DEPARTMENTS
+    <set>
+      <if test="departmentName != null">
+        DEPARTMENT_NAME = #{departmentName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.smer.dao.dto.Departments">
+    update DEPARTMENTS
+    set DEPARTMENT_NAME = #{departmentName,jdbcType=VARCHAR}
+    where DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+  </update>
+</mapper>

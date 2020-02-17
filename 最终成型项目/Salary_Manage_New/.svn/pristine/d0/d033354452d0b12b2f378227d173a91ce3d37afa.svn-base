@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.SalarySettlementDetailsMapper">
+  <resultMap id="BaseResultMap" type="cn.com.smer.dao.dto.SalarySettlementDetails">
+    <id column="SALARY_SETTLEMENT_ID" jdbcType="DECIMAL" property="salarySettlementId" />
+    <id column="PROJECT_ID" jdbcType="DECIMAL" property="projectId" />
+    <result column="MONEY" jdbcType="DECIMAL" property="money" />
+    <result column="ADDORSUBTRACT" jdbcType="DECIMAL" property="addorsubtract" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SALARY_SETTLEMENT_ID, PROJECT_ID, MONEY, ADDORSUBTRACT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="cn.com.smer.dao.dto.SalarySettlementDetailsKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SALARY_SETTLEMENT_DETAILS
+    where SALARY_SETTLEMENT_ID = #{salarySettlementId,jdbcType=DECIMAL}
+      and PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectBySalarySettlementId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SALARY_SETTLEMENT_DETAILS
+    where SALARY_SETTLEMENT_ID = #{salarySettlementId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.com.smer.dao.dto.SalarySettlementDetailsKey">
+    delete from SALARY_SETTLEMENT_DETAILS
+    where SALARY_SETTLEMENT_ID = #{salarySettlementId,jdbcType=DECIMAL}
+      and PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.com.smer.dao.dto.SalarySettlementDetails">
+    insert into SALARY_SETTLEMENT_DETAILS (SALARY_SETTLEMENT_ID, PROJECT_ID, MONEY, 
+      ADDORSUBTRACT)
+    values (#{salarySettlementId,jdbcType=DECIMAL}, #{projectId,jdbcType=DECIMAL}, #{money,jdbcType=DECIMAL}, 
+      #{addorsubtract,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.smer.dao.dto.SalarySettlementDetails">
+    insert into SALARY_SETTLEMENT_DETAILS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="salarySettlementId != null">
+        SALARY_SETTLEMENT_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="money != null">
+        MONEY,
+      </if>
+      <if test="addorsubtract != null">
+        ADDORSUBTRACT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="salarySettlementId != null">
+        #{salarySettlementId,jdbcType=DECIMAL},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=DECIMAL},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="addorsubtract != null">
+        #{addorsubtract,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.smer.dao.dto.SalarySettlementDetails">
+    update SALARY_SETTLEMENT_DETAILS
+    <set>
+      <if test="money != null">
+        MONEY = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="addorsubtract != null">
+        ADDORSUBTRACT = #{addorsubtract,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SALARY_SETTLEMENT_ID = #{salarySettlementId,jdbcType=DECIMAL}
+      and PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.smer.dao.dto.SalarySettlementDetails">
+    update SALARY_SETTLEMENT_DETAILS
+    set MONEY = #{money,jdbcType=DECIMAL},
+      ADDORSUBTRACT = #{addorsubtract,jdbcType=DECIMAL}
+    where SALARY_SETTLEMENT_ID = #{salarySettlementId,jdbcType=DECIMAL}
+      and PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+  </update>
+</mapper>

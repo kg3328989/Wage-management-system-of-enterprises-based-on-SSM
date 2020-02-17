@@ -1,0 +1,21 @@
+package cn.com.dhc.dao.inter;
+
+import java.util.List;
+
+import cn.com.dhc.dao.dto.Jobs;
+
+public interface JobsMapper {
+    int deleteByPrimaryKey(String jobId);
+
+    int insert(Jobs record);
+
+    int insertSelective(Jobs record);
+
+    Jobs selectByPrimaryKey(String jobId);
+
+    int updateByPrimaryKeySelective(Jobs record);
+
+    int updateByPrimaryKey(Jobs record);
+
+	List<Jobs> getAll();
+}

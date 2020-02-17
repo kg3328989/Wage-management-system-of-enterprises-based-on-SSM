@@ -1,0 +1,33 @@
+package cn.com.dhc.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import cn.com.dhc.service.LoginService;
+
+@Controller
+@SessionAttributes("userName")
+@RequestMapping("/login")
+public class LoginController {
+	@Autowired
+	private LoginService loginService; 
+	@RequestMapping(value = "/list", params = {"form"})
+	public String login() {
+		return "/login";
+	}
+	@RequestMapping("/list")
+	public String main(String userName,String userPwd,Model model) {
+		boolean result = loginService.loginValidate(userName, userPwd);
+		if(result) {
+			model.addAttribute("userName",userName);
+			return "/main";
+			
+		}else {
+			model.addAttribute("loginResult", "µÇÂ½Ê§°Ü£¬ÇëÖØÐÂµÇÂ¼£¡");
+			return "/login";
+		}
+	}
+}

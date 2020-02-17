@@ -1,0 +1,17 @@
+package cn.com.smer.inter;
+
+import cn.com.smer.dao.dto.ImportProjects;
+
+public interface ImportProjectsMapper {
+    int deleteByPrimaryKey(Long importProjectId);
+
+    int insert(ImportProjects record);
+
+    int insertSelective(ImportProjects record);
+
+    ImportProjects selectByPrimaryKey(Long importProjectId);
+
+    int updateByPrimaryKeySelective(ImportProjects record);
+
+    int updateByPrimaryKey(ImportProjects record);
+}

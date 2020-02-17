@@ -1,0 +1,149 @@
+package cn.com.smer.service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.Calculations;
+import cn.com.smer.dao.dto.Employees;
+import cn.com.smer.dao.dto.FixedSalarys;
+import cn.com.smer.dao.dto.ImportProjects;
+import cn.com.smer.dao.dto.Projects;
+import cn.com.smer.dao.dto.SalaryProjects;
+import cn.com.smer.dao.dto.SalarySettlements;
+import cn.com.smer.dao.inter.CalculationsMapper;
+import cn.com.smer.dao.inter.EmployeesMapper;
+import cn.com.smer.dao.inter.FixedSalarysMapper;
+import cn.com.smer.dao.inter.ImportProjectsMapper;
+import cn.com.smer.dao.inter.ProjectsMapper;
+import cn.com.smer.dao.inter.SalarySettlementsMapper;
+import cn.com.smer.dtoform.ProjectsForm;
+import cn.com.smer.dtoform.SalarySettlementsForm;
+
+@Service
+public class SalarySettlementService {
+	@Autowired
+	private SalarySettlementsMapper salarySettlementMapper;
+	@Autowired
+	private EmployeesMapper employeesMapper;
+	@Autowired
+	private FixedSalarysMapper fixedSalarysMapper;
+	@Autowired
+	private ProjectsMapper projectsMapper;
+	@Autowired
+	private CalculationsMapper calculationsMapper;
+	@Autowired
+	private ImportProjectsMapper importProjectsMapper;
+
+	public String selctAll(SalarySettlementsForm form) {
+		Employees employee = new Employees();
+		employee.setDepartmentId(form.getDepartmentId());
+		// 按部门号查询员工信息
+		List<Employees> listEmployee = employeesMapper.selectBySelective(employee);
+		// 储存工资结算主表信息
+		List<SalarySettlements> listSalarySettlements = new ArrayList<SalarySettlements>();
+		// 按部门号查询员工固定工资信息
+		List<FixedSalarys> listFixedSalarys = fixedSalarysMapper.selectByIdSelective(form.getDepartmentId());
+		for (Employees employee1 : listEmployee) {
+			SalarySettlements salarySettlements = new SalarySettlements();
+			// 计算员工的固定工资
+			Long fixedSalarysum = (long) 0;
+			for (FixedSalarys fixedSalary : listFixedSalarys) {
+				if (fixedSalary.getEmployeeId() == employee1.getEmployeeId()) {
+					// 工资项目详细表的某项信息
+					ProjectsForm newproject = new ProjectsForm();
+					newproject.setProjectId(fixedSalary.getProjectId());
+					List<Projects> listProject = projectsMapper.selectBySelective(newproject);
+					for (Projects project : listProject) {
+						if (project.getAddorsubtract() == 0) {
+							fixedSalarysum += fixedSalary.getSalary();
+						} else if (project.getAddorsubtract() == 1) {
+							fixedSalarysum -= fixedSalary.getSalary();
+						}
+					}
+				}
+			}
+			System.out.println("固定工资" + fixedSalarysum);
+			// 计算员工的计算项目
+			BigDecimal calculationtypesum = new BigDecimal(0);
+			ProjectsForm newproject = new ProjectsForm();
+			newproject.setProjectType((short) 2);
+			// 所有计算项目
+			List<Projects> listCalculationTypeProjects = projectsMapper.selectBySelective(newproject);
+			for (Projects project : listCalculationTypeProjects) {
+				Calculations calculations = calculationsMapper.selectByProjectId(project.getProjectId());
+				// 某一项计算项目的结果
+				BigDecimal calculation = new BigDecimal(0);
+				if (calculations.getOperator().equals("1")) {
+					calculation = new BigDecimal(fixedSalarysum).add(calculations.getOperandtwo());
+				} else if (calculations.getOperator().equals("2")) {
+					calculation = new BigDecimal(fixedSalarysum).subtract(calculations.getOperandtwo());
+				} else if (calculations.getOperator().equals("3")) {
+					calculation = new BigDecimal(fixedSalarysum).multiply(calculations.getOperandtwo());
+				} else {
+					calculation = new BigDecimal(fixedSalarysum).divide(calculations.getOperandtwo());
+				}
+				// 所有计算项目的结果
+				if (project.getAddorsubtract() == 0) {
+					calculationtypesum = calculationtypesum.add(calculation);
+				} else if (project.getAddorsubtract() == 1) {
+					calculationtypesum = calculationtypesum.subtract(calculation);
+				}
+			}
+			System.out.println("计算项目" + calculationtypesum);
+			// 所有导入项目
+			ImportProjects importPriject = new ImportProjects();
+			importPriject.setEmployeeId(employee1.getEmployeeId());
+			importPriject.setImportDate(form.getImportDate());
+			List<ImportProjects> listImportProjects = importProjectsMapper.selectByInfo(importPriject);
+			Long importProjectsum = (long) 0;
+			for (ImportProjects importProjects : listImportProjects) {
+				// 工资项目详细表的某项信息
+				ProjectsForm newproject1 = new ProjectsForm();
+				newproject1.setProjectId(importProjects.getProjectId());
+				Calculations calculations = calculationsMapper.selectByProjectId(importProjects.getProjectId());
+				List<Projects> listCalculationTypeProjects1 = projectsMapper.selectBySelective(newproject1);
+				for (Projects project1 : listCalculationTypeProjects1) {
+					// 某一项计算项目的结果
+					BigDecimal calculation = new BigDecimal(0);
+					if (calculations.getOperator().equals("1")) {
+						calculation = new BigDecimal(importProjects.getImportInfo()).add(calculations.getOperandtwo());
+					} else if (calculations.getOperator().equals("2")) {
+						calculation = new BigDecimal(importProjects.getImportInfo())
+								.subtract(calculations.getOperandtwo());
+					} else if (calculations.getOperator().equals("3")) {
+						calculation = new BigDecimal(importProjects.getImportInfo())
+								.multiply(calculations.getOperandtwo());
+					} else {
+						calculation = new BigDecimal(importProjects.getImportInfo())
+								.divide(calculations.getOperandtwo());
+					}
+					// 所有计算项目的结果
+					if (project1.getAddorsubtract() == 0) {
+						importProjectsum = importProjectsum + calculation.longValue();
+					} else if (project1.getAddorsubtract() == 1) {
+						importProjectsum = importProjectsum - calculation.longValue();
+					}
+				}
+
+			}
+			System.out.println("导入项目" + importProjectsum);
+			salarySettlements.setEmployeeId(employee1.getEmployeeId());
+			salarySettlements.setDepartmentId(employee1.getDepartmentId());
+			salarySettlements.setState((long) 0);
+			salarySettlements.setImportDate(form.getImportDate());
+			salarySettlements.setPayDate(new Date());
+			salarySettlements.setTrueSalary(fixedSalarysum + calculationtypesum.longValue() + importProjectsum);
+			System.out.println("工资详细表主表" + salarySettlements);
+			if (salarySettlementMapper.insertSelective(salarySettlements) == 1) {
+				System.out.println("success");
+			}
+		}
+		return null;
+
+	}
+}

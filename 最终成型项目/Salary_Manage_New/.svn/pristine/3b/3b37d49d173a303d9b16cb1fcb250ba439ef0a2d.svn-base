@@ -1,0 +1,134 @@
+package cn.com.smer.service;
+
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.Employees;
+import cn.com.smer.dao.dto.FixedSalarys;
+import cn.com.smer.dao.inter.EmployeesMapper;
+import cn.com.smer.dao.inter.FixedSalarysMapper;
+import cn.com.smer.dao.inter.ProjectsMapper;
+import cn.com.smer.dtoform.FixedSalarysForm;
+
+@Service
+public class FixedSalarysService {
+	
+	@Autowired
+	private FixedSalarysMapper fixedSalarysDao;
+	@Autowired
+	private ProjectsMapper projectsDao;
+	@Autowired
+	private EmployeesMapper employeesDao;
+	//按部门新增员工固定工资信息
+	public void insertByDepartmentId(Long deptId) {
+		boolean result = true;
+		
+		if(fixedSalarysDao.selectByDeptIdSelective(deptId).size() == 0) {
+			result = false;
+		}
+		if(result == false) {
+			List<Employees> empe = employeesDao.selectByDepartmentId(deptId);
+			List<Long> ppd = projectsDao.selectProjectIdByOne();
+			for(Employees emp : empe) {
+				for(Long pp : ppd) {
+					FixedSalarys a = new FixedSalarys();
+					a.setDepartmentId(deptId);
+					a.setEmployeeId(emp.getEmployeeId());
+					a.setProjectId(pp);
+					Long b = Long.valueOf(0);
+					a.setSalary(b);
+					int c = fixedSalarysDao.insertSelective(a);
+					if(c == 0) {
+						System.out.println("按部门新增员工固定工资信息出错！");
+					}
+				}
+			}
+		}
+	}
+	//初始化操作
+	public void initialize(Long deptId){
+		System.out.println("開始初始化！" + deptId);
+		List<Long> fspd = fixedSalarysDao.selectProjectIdByDepartmentId(deptId);
+		System.out.println("标记点1");
+		List<Long> ppd = projectsDao.selectProjectIdByOne();
+		System.out.println("标记点2");
+		List<Employees> empe = employeesDao.selectByDepartmentId(deptId);
+		/*for(Employees a : empe) {
+			System.out.println("员工Id=" + a.getEmployeeId());
+			System.out.println("员工姓名=" + a.getEmployeeName());
+			System.out.println();
+		}*/
+		System.out.println("标记点3");
+		for(Long pp : ppd) {
+			
+			if(!fspd.contains(pp)) {
+				System.out.println("标记点4");
+				//查找所有员工
+				for(Employees emp : empe) {
+					FixedSalarys a = new FixedSalarys();
+					a.setDepartmentId(emp.getDepartmentId());
+					a.setEmployeeId(emp.getEmployeeId());
+					a.setProjectId(pp);
+					Long b = Long.valueOf(0);
+					a.setSalary(b);
+					int c = fixedSalarysDao.insertSelective(a);
+					if(c == 0) {
+						System.out.println("初始化出错！");
+					}
+				}
+				System.out.println("标记点5");
+			}
+			
+		}
+	}
+	
+	//通过部门Id查询固定工资详细
+	public List<FixedSalarys> selectByDeptId(Long deptid) {
+		List<FixedSalarys> fixedSalarys = fixedSalarysDao.selectByDeptIdSelective(deptid);
+		return fixedSalarys;
+	}
+	//通过员工Id查询固定工资详细
+	public List<FixedSalarys> selectByEmpId(Long empId) {
+		List<FixedSalarys> fixedSalarys = fixedSalarysDao.selectByEmpIdSelective(empId);
+		return fixedSalarys;
+	}
+	//通过固定项目编号修改固定项目
+	public boolean updateByPrimaryKeySelective(FixedSalarysForm fsForm) {
+		//数据的拷贝,要保证两个对象中的属性名一致。
+		FixedSalarys fs = new FixedSalarys();
+		BeanUtils.copyProperties(fsForm, fs);
+		int count = fixedSalarysDao.updateByPrimaryKeySelective(fs);
+		if(count == 1){
+			return true;
+		}else {
+			return false;
+		}
+	}
+	//通过员工编号和项目编号修改工资值
+	public boolean batchUpdate(FixedSalarysForm fsForm) {
+		//数据的拷贝,要保证两个对象中的属性名一致。
+		FixedSalarys fs = new FixedSalarys();
+		BeanUtils.copyProperties(fsForm, fs);
+
+		List<Long> employees = fsForm.getCheckbox();
+		
+		int temp = 1;
+		for(Long employee : employees) {
+			fs.setEmployeeId(employee);
+			int count = fixedSalarysDao.batchUpdate(fs);
+			if(count != 1){
+				temp = 0;
+				break;
+			}
+		}
+		if(temp == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+}

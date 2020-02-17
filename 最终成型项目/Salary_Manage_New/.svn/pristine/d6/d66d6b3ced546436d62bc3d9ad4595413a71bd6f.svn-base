@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.EmployeesMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.smer.dao.dto.Employees">
+		<id column="EMPLOYEE_ID" jdbcType="DECIMAL" property="employeeId" />
+		<result column="EMPLOYEE_NAME" jdbcType="VARCHAR"
+			property="employeeName" />
+		<result column="DEPARTMENT_ID" jdbcType="DECIMAL"
+			property="departmentId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		EMPLOYEE_ID, EMPLOYEE_NAME, DEPARTMENT_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EMPLOYEES
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+	</select>
+	<select id="selectBySelective" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EMPLOYEES
+		<where>
+			1=1
+			<if test="employeeId != null">
+				AND EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+			</if>
+			<if test="employeeName != null and employeeName != ''">
+				AND EMPLOYEE_NAME = #{employeeName,jdbcType=VARCHAR}
+			</if>
+			<if test="departmentId != null">
+				AND DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from EMPLOYEES
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.com.smer.dao.dto.Employees">
+		insert into EMPLOYEES (EMPLOYEE_ID, EMPLOYEE_NAME, DEPARTMENT_ID
+		)
+		values (#{employeeId,jdbcType=DECIMAL}, #{employeeName,jdbcType=VARCHAR},
+		#{departmentId,jdbcType=DECIMAL}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.smer.dao.dto.Employees">
+		insert into EMPLOYEES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="employeeName != null">
+				EMPLOYEE_NAME,
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="employeeName != null">
+				#{employeeName,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.smer.dao.dto.Employees">
+		update EMPLOYEES
+		<set>
+			<if test="employeeName != null">
+				EMPLOYEE_NAME = #{employeeName,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.smer.dao.dto.Employees">
+		update EMPLOYEES
+		set EMPLOYEE_NAME = #{employeeName,jdbcType=VARCHAR},
+		DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+	</update>
+</mapper>

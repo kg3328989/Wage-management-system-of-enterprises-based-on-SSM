@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.dhc.dao..inter.EmployeesMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.dhc.dao.dto.Employees">
+		<id column="EMPLOYEE_ID" jdbcType="DECIMAL" property="employeeId" />
+		<result column="FIRST_NAME" jdbcType="VARCHAR"
+			property="firstName" />
+		<result column="LAST_NAME" jdbcType="VARCHAR"
+			property="lastName" />
+		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="PHONE_NUMBER" jdbcType="VARCHAR"
+			property="phoneNumber" />
+		<result column="HIRE_DATE" jdbcType="TIMESTAMP"
+			property="hireDate" />
+		<result column="JOB_ID" jdbcType="VARCHAR" property="jobId" />
+		<result column="SALARY" jdbcType="DECIMAL" property="salary" />
+		<result column="COMMISSION_PCT" jdbcType="DECIMAL"
+			property="commissionPct" />
+		<result column="MANAGER_ID" jdbcType="DECIMAL"
+			property="managerId" />
+		<result column="DEPARTMENT_ID" jdbcType="DECIMAL"
+			property="departmentId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		EMPLOYEE_ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER,
+		HIRE_DATE, JOB_ID,
+		SALARY,
+		COMMISSION_PCT, MANAGER_ID, DEPARTMENT_ID
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from EMPLOYEES
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+	</select>
+	<select id="selectAllManager" resultMap="BaseResultMap">
+		SELECT distinct
+		e.employee_id,e.first_name FROM employees e,employees d
+		where e.employee_id = d.manager_id(+)
+	</select>
+	<select id="selectSelective" resultMap="BaseResultMap">
+		SELECT distinct
+		e.employee_id,e.first_name FROM employees e,employees d
+		where e.employee_id = d.manager_id(+)
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from EMPLOYEES
+		where EMPLOYEE_ID =
+		#{employeeId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="cn.com.dhc.dao.dto.Employees">
+		insert into EMPLOYEES
+		(EMPLOYEE_ID, FIRST_NAME, LAST_NAME,
+		EMAIL, PHONE_NUMBER, HIRE_DATE,
+		JOB_ID, SALARY, COMMISSION_PCT,
+		MANAGER_ID, DEPARTMENT_ID)
+		values
+		(#{employeeId,jdbcType=DECIMAL}, #{firstName,jdbcType=VARCHAR},
+		#{lastName,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{phoneNumber,jdbcType=VARCHAR}, #{hireDate,jdbcType=TIMESTAMP},
+		#{jobId,jdbcType=VARCHAR}, #{salary,jdbcType=DECIMAL},
+		#{commissionPct,jdbcType=DECIMAL},
+		#{managerId,jdbcType=DECIMAL},
+		#{departmentId,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.dhc.dao.dto.Employees">
+		insert into EMPLOYEES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="firstName != null">
+				FIRST_NAME,
+			</if>
+			<if test="lastName != null">
+				LAST_NAME,
+			</if>
+			<if test="email != null">
+				EMAIL,
+			</if>
+			<if test="phoneNumber != null">
+				PHONE_NUMBER,
+			</if>
+			<if test="hireDate != null">
+				HIRE_DATE,
+			</if>
+			<if test="jobId != null">
+				JOB_ID,
+			</if>
+			<if test="salary != null">
+				SALARY,
+			</if>
+			<if test="commissionPct != null">
+				COMMISSION_PCT,
+			</if>
+			<if test="managerId != null">
+				MANAGER_ID,
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="firstName != null">
+				#{firstName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastName != null">
+				#{lastName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNumber != null">
+				#{phoneNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="hireDate != null">
+				#{hireDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="jobId != null">
+				#{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="salary != null">
+				#{salary,jdbcType=DECIMAL},
+			</if>
+			<if test="commissionPct != null">
+				#{commissionPct,jdbcType=DECIMAL},
+			</if>
+			<if test="managerId != null">
+				#{managerId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.dhc.dao.dto.Employees">
+		update EMPLOYEES
+		<set>
+			<if test="firstName != null">
+				FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastName != null">
+				LAST_NAME = #{lastName,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNumber != null">
+				PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="hireDate != null">
+				HIRE_DATE = #{hireDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="jobId != null">
+				JOB_ID = #{jobId,jdbcType=VARCHAR},
+			</if>
+			<if test="salary != null">
+				SALARY = #{salary,jdbcType=DECIMAL},
+			</if>
+			<if test="commissionPct != null">
+				COMMISSION_PCT = #{commissionPct,jdbcType=DECIMAL},
+			</if>
+			<if test="managerId != null">
+				MANAGER_ID = #{managerId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.dhc.dao.dto.Employees">
+		update EMPLOYEES
+		set FIRST_NAME =
+		#{firstName,jdbcType=VARCHAR},
+		LAST_NAME =
+		#{lastName,jdbcType=VARCHAR},
+		EMAIL = #{email,jdbcType=VARCHAR},
+		PHONE_NUMBER = #{phoneNumber,jdbcType=VARCHAR},
+		HIRE_DATE =
+		#{hireDate,jdbcType=TIMESTAMP},
+		JOB_ID = #{jobId,jdbcType=VARCHAR},
+		SALARY = #{salary,jdbcType=DECIMAL},
+		COMMISSION_PCT =
+		#{commissionPct,jdbcType=DECIMAL},
+		MANAGER_ID =
+		#{managerId,jdbcType=DECIMAL},
+		DEPARTMENT_ID =
+		#{departmentId,jdbcType=DECIMAL}
+		where EMPLOYEE_ID =
+		#{employeeId,jdbcType=DECIMAL}
+	</update>
+</mapper>

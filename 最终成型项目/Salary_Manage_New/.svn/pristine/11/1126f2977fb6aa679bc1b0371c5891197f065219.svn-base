@@ -1,0 +1,23 @@
+package cn.com.smer.dao.inter;
+
+import java.util.List;
+
+import cn.com.smer.dao.dto.Departments;
+
+public interface DepartmentsMapper {
+    int deleteByPrimaryKey(Long departmentId);
+
+    int insert(Departments record);
+
+    int insertSelective(Departments record);
+
+    Departments selectByPrimaryKey(Long departmentId);
+
+    int updateByPrimaryKeySelective(Departments record);
+
+    int updateByPrimaryKey(Departments record);
+    /*<!-- sxb使用：新增查询全部部门编号 -->*/
+    List<Departments> selectAll();
+    /*<!-- sxb使用：通过部门名称查询部门编号 -->*/
+    Departments selectByName(String deptName);
+}

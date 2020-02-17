@@ -1,0 +1,44 @@
+package cn.com.smer.controller;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+
+
+
+@Controller
+@RequestMapping("/baobiao")
+public class BaoBiaoConller {
+	//工资查询
+	@RequestMapping(value = "/list", params = { "form1" })
+	public String listForm1() {
+		return "/baobiao/salary_select";
+		
+	}
+	
+	
+	//公司
+	@RequestMapping(value = "/list", params = { "form2" })
+	public String listForm2() {
+		return "/baobiao/company";
+		
+	}
+	
+	
+	//部门
+	@RequestMapping(value = "/list", params = { "form3" })
+	public String listForm3() {
+		return "/baobiao/departments";
+		
+	}
+	
+	
+	//员工
+	@RequestMapping(value = "/list", params = { "form4" })
+	public String listForm4() {
+		return "/baobiao/employees";
+		
+	}
+}

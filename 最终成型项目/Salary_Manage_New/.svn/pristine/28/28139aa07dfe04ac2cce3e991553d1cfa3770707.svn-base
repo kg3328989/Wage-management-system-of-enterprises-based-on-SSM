@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>INSPINIA | Empty Page</title>
+
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+		<link href="css/animate.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+
+		<div id="wrapper">
+
+			<nav class="navbar-default navbar-static-side" role="navigation">
+				<div class="sidebar-collapse">
+					<a class="close-canvas-menu"><i class="fa fa-times"></i></a>
+					<!--右侧菜单开始-->
+					<ul class="nav metismenu" id="side-menu">
+						<li class="nav-header">
+							<div class="dropdown profile-element" align="center">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="off_canvas_menu.html#">
+									<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">项目分类</strong>
+                             </span></span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<a href="projectsAddAddAdd.html"><i class="fa fa-th-large"></i> <span class="nav-label">工资项目管理</span> <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="projectsAddAddAdd.html">Dashboard v.1</a>
+								</li>
+								<li>
+									<a href="dashboard_2.html">Dashboard v.2</a>
+								</li>
+								<li>
+									<a href="dashboard_3.html">Dashboard v.3</a>
+								</li>
+								<li>
+									<a href="dashboard_4_1.html">Dashboard v.4</a>
+								</li>
+								<li>
+									<a href="dashboard_5.html">Dashboard v.5 <span class="label label-primary pull-right">NEW</span></a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="projectsAddAddAdd.html"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">固定工资管理</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="graph_flot.html">Flot Charts</a>
+								</li>
+								<li>
+									<a href="graph_morris.html">Morris.js Charts</a>
+								</li>
+								<li>
+									<a href="graph_rickshaw.html">Rickshaw Charts</a>
+								</li>
+								<li>
+									<a href="graph_chartjs.html">Chart.js</a>
+								</li>
+								<li>
+									<a href="graph_chartist.html">Chartist</a>
+								</li>
+								<li>
+									<a href="c3.html">c3 charts</a>
+								</li>
+								<li>
+									<a href="graph_peity.html">Peity Charts</a>
+								</li>
+								<li>
+									<a href="graph_sparkline.html">Sparkline Charts</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="projectsAddAddAdd.html#"><i class="fa fa-edit"></i> <span class="nav-label">导入项目管理</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="form_basic.html">Basic form</a>
+								</li>
+								<li>
+									<a href="form_advanced.html">Advanced Plugins</a>
+								</li>
+								<li>
+									<a href="form_wizard.html">Wizard</a>
+								</li>
+								<li>
+									<a href="form_file_upload.html">File Upload</a>
+								</li>
+								<li>
+									<a href="form_editors.html">Text Editor</a>
+								</li>
+								<li>
+									<a href="form_markdown.html">Markdown</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="projectsAddAddAdd.html#"><i class="fa fa-flask"></i> <span class="nav-label">工资结算</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="typography.html">Typography</a>
+								</li>
+								<li>
+									<a href="icons.html">Icons</a>
+								</li>
+								<li>
+									<a href="draggable_panels.html">Draggable Panels</a>
+								</li>
+								<li>
+									<a href="resizeable_panels.html">Resizeable Panels</a>
+								</li>
+								<li>
+									<a href="buttons.html">Buttons</a>
+								</li>
+								<li>
+									<a href="video.html">Video</a>
+								</li>
+								<li>
+									<a href="tabs_panels.html">Panels</a>
+								</li>
+								<li>
+									<a href="tabs.html">Tabs</a>
+								</li>
+								<li>
+									<a href="notifications.html">Notifications & Tooltips</a>
+								</li>
+								<li>
+									<a href="badges_labels.html">Badges, Labels, Progress</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="projectsAddAddAdd.html#"><i class="fa fa-picture-o"></i> <span class="nav-label">报表</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="basic_gallery.html">Lightbox Gallery</a>
+								</li>
+								<li>
+									<a href="slick_carousel.html">Slick Carousel</a>
+								</li>
+								<li>
+									<a href="carousel.html">Bootstrap Carousel</a>
+								</li>
+
+							</ul>
+						</li>
+						<li>
+							<a href="projectsAddAddAdd.html#"><i class="fa fa-sitemap"></i> <span class="nav-label">菜单五一级</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="projectsAddAddAdd.html#">二级 一<span class="fa arrow"></span></a>
+									<ul class="nav nav-third-level">
+										<li>
+											<a href="projectsAddAddAdd.html#">三级 一</a>
+										</li>
+										<li>
+											<a href="projectsAddAddAdd.html#">三级 一</a>
+										</li>
+										</a>
+								</li>
+								<li>
+									<a href="projectsAddAdd.html#">三级 一</a>
+								</li>
+								</a>
+						</li>
+
+						</ul>
+						</li>
+						<li>
+							<a href="projectsAddAdd.html#">二级 二</a>
+						</li>
+						<li>
+							<a href="projectsAddAdd.html#">二级 三</a>
+						</li>
+						<li>
+							<a href="projectsAddAdd.html#">二级 四</a>
+						</li>
+						</ul>
+						</li>
+					</ul>
+					<!--右侧菜单开结束-->
+				</div>
+			</nav>
+
+			<div id="page-wrapper" class="gray-bg">
+				<div class="row border-bottom">
+					<!--上侧导航条开始-->
+					<nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+						<div class="navbar-header">
+							<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="projectsAdd.html#"><i class="fa fa-bars"></i> </a>
+							<form role="search" class="navbar-form-custom" action="search_results.html">
+								<div class="form-group">
+									<input type="text" placeholder="Menu" class="form-control" name="top-search" id="top-search" disabled="disabled">
+								</div>
+							</form>
+						</div>
+						<ul class="nav navbar-top-links navbar-right">
+							<li>
+								<span class="m-r-sm text-muted welcome-message">工资管理系统</span>
+							</li>
+							<li class="dropdown">
+								<a class="dropdown-toggle count-info" data-toggle="dropdown" href="projectsAddAdd.html#">
+									<i class="fa fa-bell"></i> <span>管理员Lucy</span>
+								</a>
+								<ul class="dropdown-menu dropdown-alerts">
+									<li>
+										<a href="mailbox.html">
+											<div>
+												<i class="fa fa-envelope fa-fw"></i> You have 16 messages
+												<span class="pull-right text-muted small">4 minutes ago</span>
+											</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="profile.html">
+											<div>
+												<i class="fa fa-twitter fa-fw"></i> 3 New Followers
+												<span class="pull-right text-muted small">12 minutes ago</span>
+											</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="grid_options.html">
+											<div>
+												<i class="fa fa-upload fa-fw"></i> Server Rebooted
+												<span class="pull-right text-muted small">4 minutes ago</span>
+											</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<div class="text-center link-block">
+											<a href="notifications.html">
+												<strong>See All Alerts</strong>
+												<i class="fa fa-angle-right"></i>
+											</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+
+							<li>
+								<a href="index.html">
+									<i class="fa fa-sign-out"></i> 退出
+								</a>
+							</li>
+						</ul>
+
+					</nav>
+					<!--上侧导航条结束-->
+				</div>
+				<div class="row wrapper border-bottom white-bg page-heading">
+					<div class="col-sm-4">
+						<h2>DHC工资管理系统</h2>
+						<ol class="breadcrumb">
+							<li>
+								<a href="main.html">Home</a>
+							</li>
+							<li class="active">
+								<strong>计算公式添加</strong>
+							</li>
+						</ol>
+					</div>
+				</div>
+
+				<div class="wrapper wrapper-content  animated fadeInRight article">
+					<div class="row">
+						<div class="col-lg-10 col-lg-offset-1">
+							<div class="ibox">
+								<div class="ibox-content">
+									<!--内容增加区域-->
+
+									<form method="get" class="form-horizontal">
+										<div class="form-group"><label class="col-sm-3 control-label">操作数一</label>
+
+											<div class="col-sm-5"><input type="text" name="projectId" id="projectId" class="form-control" value="1000" readonly="readonly"></div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div class="form-group"><label class="col-sm-3 control-label">操作符</label>
+											<div class="col-sm-5">
+												<select class="form-control m-b" name="operator" id="operator">
+													<option>请选择...</option>
+													<option value="1">加</option>
+													<option value="2">减</option>
+													<option value="3">乘</option>
+													<option value="3">除</option>
+												</select>
+												<span class="help-block m-b-none"></span>
+											</div>
+										</div>
+								
+										<div class="hr-line-dashed"></div>																		
+										<div class="form-group"><label class="col-sm-3 control-label">操作数二</label>
+											<div class="col-sm-5"><input type="text" name="operandtwo" id="operandtwo" class="form-control"  ></div>
+										</div>
+
+				
+										<div class="hr-line-dashed"></div>
+										<div class="form-group"><label class="col-sm-7 control-label"></label>
+											<div class="col-sm-5">
+												<button class="btn btn-primary" type="reset">重置</button>
+												<button class="btn btn-primary" type="submit">添加</button>
+											</div>
+										</div>
+
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!--底部显示-->
+				<div class="footer">
+					<div class="pull-right">
+						<strong>大连华信培训中心定制二班</strong>第五组
+					</div>
+					<div>
+						<strong>Web</strong> for DHC &copy; 2019-2020
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- projectsAddAddAddly scripts -->
+		<script src="js/jquery-2.1.1.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+		<!-- Custom and plugin javascript -->
+		<script src="js/inspinia.js"></script>
+		<script src="js/plugins/pace/pace.min.js"></script>
+
+		<script>
+			$('body.canvas-menu .sidebar-collapse').slimScroll({
+				height: '100%',
+				railOpacity: 0.9
+			});
+		</script>
+
+	</body>
+
+</html>

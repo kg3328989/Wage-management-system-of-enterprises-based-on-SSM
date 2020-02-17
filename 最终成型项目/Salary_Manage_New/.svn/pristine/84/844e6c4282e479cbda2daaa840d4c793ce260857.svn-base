@@ -1,0 +1,8 @@
+package cn.com.smer.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class UsersService {
+
+}

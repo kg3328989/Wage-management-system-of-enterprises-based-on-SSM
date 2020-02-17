@@ -1,0 +1,213 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>INSPINIA | Empty Page</title>
+
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+		<link href="css/animate.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+
+	</head>
+
+	<body >
+
+		<div id="wrapper">
+
+			<
+
+			<div id="page-wrapper" class="gray-bg">
+				<div class="row border-bottom">
+					<!--上侧导航条开始-->
+					<nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+						<div class="navbar-header">
+							<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="projectsAdd.html#"><i class="fa fa-bars"></i> </a>
+							<form role="search" class="navbar-form-custom" action="search_results.html">
+								<div class="form-group">
+									<input type="text" placeholder="Menu" class="form-control" name="top-search" id="top-search" disabled="disabled">
+								</div>
+							</form>
+						</div>
+						<ul class="nav navbar-top-links navbar-right">
+							<li>
+								<span class="m-r-sm text-muted welcome-message">工资管理系统</span>
+							</li>
+							<li class="dropdown">
+								<a class="dropdown-toggle count-info" data-toggle="dropdown" href="projectsAddAdd.html#">
+									<i class="fa fa-bell"></i> <span>管理员Lucy</span>
+								</a>
+								<ul class="dropdown-menu dropdown-alerts">
+									<li>
+										<a href="mailbox.html">
+											<div>
+												<i class="fa fa-envelope fa-fw"></i> You have 16 messages
+												<span class="pull-right text-muted small">4 minutes ago</span>
+											</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="profile.html">
+											<div>
+												<i class="fa fa-twitter fa-fw"></i> 3 New Followers
+												<span class="pull-right text-muted small">12 minutes ago</span>
+											</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="grid_options.html">
+											<div>
+												<i class="fa fa-upload fa-fw"></i> Server Rebooted
+												<span class="pull-right text-muted small">4 minutes ago</span>
+											</div>
+										</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<div class="text-center link-block">
+											<a href="notifications.html">
+												<strong>See All Alerts</strong>
+												<i class="fa fa-angle-right"></i>
+											</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+
+							<li>
+								<a href="index.html">
+									<i class="fa fa-sign-out"></i> 退出
+								</a>
+							</li>
+						</ul>
+
+					</nav>
+					<!--上侧导航条结束-->
+				</div>
+				<div class="row wrapper border-bottom white-bg page-heading">
+					<div class="col-sm-4">
+						<h2>DHC工资管理系统</h2>
+						<ol class="breadcrumb">
+							<li>
+								<a href="main.html">Home</a>
+							</li>
+							<li class="active">
+								<strong>工资项目增加</strong>
+							</li>
+						</ol>
+					</div>
+				</div>
+
+				<div class="wrapper wrapper-content  animated fadeInRight article">
+					<div class="row">
+						<div class="col-lg-10 col-lg-offset-1">
+							<div class="ibox">
+								<div class="ibox-content">
+									<!--内容增加区域-->
+
+									<form method="get" class="form-horizontal">
+										<div class="form-group"><label class="col-sm-3 control-label">项目名称</label>
+
+											<div class="col-sm-5"><input type="text" name="projectName" id="projectName" class="form-control"></div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div class="form-group"><label class="col-sm-3 control-label">项目类型</label>
+											<div class="col-sm-5">
+												<select class="form-control m-b" name="projectType" id="projectType">
+													<option>请选择...</option>
+													<option value="1">固定项目</option>
+													<option value="2">计算项目</option>
+													<option value="3">导入项目</option>
+													<option value="3">实发项目</option>
+												</select>
+												<span class="help-block m-b-none"></span>
+											</div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div class="form-group"><label class="col-sm-3 control-label">是否显示<br />在工资条中</label>
+
+											<div class="col-sm-5">
+												<div class="i-checks"><label> <input type="radio" checked="checked" value="1" name="show"> <i></i> 在工资条中显示 </label></div>
+												<div class="i-checks"><label> <input type="radio"  value="0" name="show"> <i></i> 不在在工资条中显示 </label></div>
+											</div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div class="form-group"><label class="col-sm-3 control-label">增减项</label>
+											<div class="col-sm-5">
+												<select class="form-control m-b" name="caculationId" id="caculationId">
+													<option>请选择...</option>
+													<option value="0">增加</option>
+													<option value="1">减少</option>
+													<option value="2">不变</option>
+												</select>
+												<span class="help-block m-b-none"></span>
+											</div>
+										</div>
+
+										<div class="hr-line-dashed"></div>
+
+										<div class="form-group"><label class="col-sm-3 control-label">备注</label>
+											<div class="col-sm-5">
+												<textarea rows="5" cols="83"></textarea>
+												<span class="help-block m-b-none"></span>
+											</div>
+										</div>
+										<div class="hr-line-dashed"></div>
+										<div class="form-group"><label class="col-sm-7 control-label"></label>
+											<div class="col-sm-5">
+												<button class="btn btn-primary" type="reset">重置</button>
+												<button class="btn btn-primary" type="submit">增加</button>
+											</div>
+										</div>
+
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!--底部显示-->
+				<div class="footer">
+					<div class="pull-right">
+						<strong>大连华信培训中心定制二班</strong>第五组
+					</div>
+					<div>
+						<strong>Web</strong> for DHC &copy; 2019-2020
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- projectsAddAddAddly scripts -->
+		<script src="js/jquery-2.1.1.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+		<!-- Custom and plugin javascript -->
+		<script src="js/inspinia.js"></script>
+		<script src="js/plugins/pace/pace.min.js"></script>
+
+		<script>
+			$('body.canvas-menu .sidebar-collapse').slimScroll({
+				height: '100%',
+				railOpacity: 0.9
+			});
+		</script>
+
+	</body>
+
+</html>

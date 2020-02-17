@@ -1,0 +1,15 @@
+package cn.com.smer.service;
+
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dtoform.UsersForm;
+
+@Service
+public class UsersService {
+
+	public boolean select(UsersForm form) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

@@ -1,0 +1,42 @@
+package cn.com.smer.service;
+
+import java.math.BigDecimal;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.smer.dao.dto.Calculations;
+import cn.com.smer.dao.dto.Projects;
+import cn.com.smer.dtoform.ProjectsForm;
+import cn.com.smer.inter.CalculationsMapper;
+import cn.com.smer.inter.ProjectsMapper;
+
+@Service
+public class ProjectsService {
+	@Autowired
+	private ProjectsMapper projectsDao;
+	@Autowired
+	private CalculationsMapper calculationsDao;
+	
+	public boolean insertSelective(ProjectsForm form) {
+		Projects projects = new Projects();
+		BeanUtils.copyProperties(form, projects);
+		int count = projectsDao.insertSelective(projects);
+		if(projects.getProjectType() == 1) {
+			if (count == 1) {
+				return true;
+			}
+			return false;
+		} else {
+			Calculations calculations = new Calculations();
+			calculations.setProjectId(projects.getProjectId());
+			calculations.setOperator("1");
+			calculations.setOperandtwo(new BigDecimal(0));
+			calculationsDao.insertSelective(calculations);
+			
+		}
+		return false;
+	}
+
+}

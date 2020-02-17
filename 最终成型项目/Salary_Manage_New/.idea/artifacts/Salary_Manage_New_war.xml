@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Salary_Manage_New:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/Salary_Manage_New_war</output-path>
+    <root id="archive" name="Salary_Manage_New_war.war">
+      <element id="artifact" artifact-name="Salary_Manage_New:war exploded" />
+    </root>
+  </artifact>
+</component>

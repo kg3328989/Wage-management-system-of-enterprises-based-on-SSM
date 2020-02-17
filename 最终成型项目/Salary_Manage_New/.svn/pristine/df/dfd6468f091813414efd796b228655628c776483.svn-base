@@ -1,0 +1,17 @@
+package cn.com.smer.inter;
+
+import cn.com.smer.dao.dto.Departments;
+
+public interface DepartmentsMapper {
+    int deleteByPrimaryKey(Long departmentId);
+
+    int insert(Departments record);
+
+    int insertSelective(Departments record);
+
+    Departments selectByPrimaryKey(Long departmentId);
+
+    int updateByPrimaryKeySelective(Departments record);
+
+    int updateByPrimaryKey(Departments record);
+}

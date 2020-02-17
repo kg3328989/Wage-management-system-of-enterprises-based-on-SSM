@@ -1,0 +1,23 @@
+package cn.com.dhc.dao.inter;
+
+import java.util.List;
+
+import cn.com.dhc.dao.dto.Departments;
+
+public interface DepartmentsMapper {
+    int deleteByPrimaryKey(Short departmentId);
+
+    int insert(Departments record);
+
+    int insertSelective(Departments record);
+
+    Departments selectByPrimaryKey(Short departmentId);
+    
+    int updateByPrimaryKeySelective(Departments record);
+
+    int updateByPrimaryKey(Departments record);
+
+	List<Departments> selectAll();
+
+	List<Departments> selectSelective(Departments dept);
+}

@@ -1,0 +1,17 @@
+package cn.com.smer.dao.inter;
+
+import cn.com.smer.dao.dto.FixedSalarys;
+
+public interface FixedSalarysMapper {
+    int deleteByPrimaryKey(Long fixedSalaryId);
+
+    int insert(FixedSalarys record);
+
+    int insertSelective(FixedSalarys record);
+
+    FixedSalarys selectByPrimaryKey(Long fixedSalaryId);
+
+    int updateByPrimaryKeySelective(FixedSalarys record);
+
+    int updateByPrimaryKey(FixedSalarys record);
+}

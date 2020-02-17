@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.FixedSalarysMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.smer.dao.dto.FixedSalarys">
+		<id column="FIXED_SALARY_ID" jdbcType="DECIMAL"
+			property="fixedSalaryId" />
+		<result column="PROJECT_ID" jdbcType="DECIMAL"
+			property="projectId" />
+		<result column="EMPLOYEE_ID" jdbcType="DECIMAL"
+			property="employeeId" />
+		<result column="DEPARTMENT_ID" jdbcType="DECIMAL"
+			property="departmentId" />
+		<result column="SALARY" jdbcType="DECIMAL" property="salary" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		FIXED_SALARY_ID, PROJECT_ID, EMPLOYEE_ID, DEPARTMENT_ID, SALARY
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from FIXED_SALARYS
+		where FIXED_SALARY_ID = #{fixedSalaryId,jdbcType=DECIMAL}
+	</select>
+	
+	<!-- 新增按部门编号查询 -->
+	<select id="selectByDeptIdSelective" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from FIXED_SALARYS
+		where DEPARTMENT_ID = #{deptId,jdbcType=DECIMAL}
+	</select>
+	
+	<!-- 新增按员工编号查询 -->
+	<select id="selectByEmpIdSelective" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from FIXED_SALARYS
+		where EMPLOYEE_ID = #{empId,jdbcType=DECIMAL}
+	</select>
+	
+	<!-- 新增查询全部工资项目编号 -->
+	<select id="selectProjectIdByDepartmentId"
+		resultType="java.lang.Long">
+		select PROJECT_ID
+		from FIXED_SALARYS
+		where DEPARTMENT_ID = #{deptId,jdbcType=DECIMAL}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from FIXED_SALARYS
+		where FIXED_SALARY_ID = #{fixedSalaryId,jdbcType=DECIMAL}
+	</delete>
+	
+	<insert id="insert"
+		parameterType="cn.com.smer.dao.dto.FixedSalarys">
+		insert into FIXED_SALARYS (FIXED_SALARY_ID, PROJECT_ID, EMPLOYEE_ID,
+		DEPARTMENT_ID, SALARY)
+		values (#{fixedSalaryId,jdbcType=DECIMAL}, #{projectId,jdbcType=DECIMAL},
+		#{employeeId,jdbcType=DECIMAL},
+		#{departmentId,jdbcType=DECIMAL}, #{salary,jdbcType=DECIMAL})
+	</insert>
+	<!-- 新增 初始化新增固定工资项目 -->
+	<insert id="insertByProjectId"
+		parameterType="cn.com.smer.dao.dto.FixedSalarys">
+		insert into FIXED_SALARYS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fixedSalaryId != null">
+				FIXED_SALARY_ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+			<if test="salary != null">
+				SALARY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fixedSalaryId != null">
+				#{fixedSalaryId,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="salary != null">
+				#{salary,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<insert id="insertSelective" parameterType="cn.com.smer.dao.dto.FixedSalarys">
+		insert into FIXED_SALARYS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			FIXED_SALARY_ID,
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+			<if test="salary != null">
+				SALARY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			fixed_salarys_seq.NEXTVAL,
+			<if test="projectId != null">
+				#{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="salary != null">
+				#{salary,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<!-- /*已使用*/ -->
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.smer.dao.dto.FixedSalarys">
+		update FIXED_SALARYS
+		<set>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+			</if>
+			<if test="employeeId != null">
+				EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="salary != null">
+				SALARY = #{salary,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where FIXED_SALARY_ID = #{fixedSalaryId,jdbcType=DECIMAL}
+	</update>
+	<!-- 通过员工编号和项目编号修改工资值 -->
+	<update id="batchUpdate"
+		parameterType="cn.com.smer.dao.dto.FixedSalarys">
+		update FIXED_SALARYS
+		<set>
+			<if test="salary != null">
+				SALARY = #{salary,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+		and PROJECT_ID = #{projectId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.smer.dao.dto.FixedSalarys">
+		update FIXED_SALARYS
+		set PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+		EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+		DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+		SALARY = #{salary,jdbcType=DECIMAL}
+		where FIXED_SALARY_ID = #{fixedSalaryId,jdbcType=DECIMAL}
+	</update>
+</mapper>

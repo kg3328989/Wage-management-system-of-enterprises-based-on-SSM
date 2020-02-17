@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.smer.dao.inter.SalarySettlementsMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.smer.dao.dto.SalarySettlements">
+		<id column="SALARY_SETTLEMENT_ID" jdbcType="DECIMAL"
+			property="salarySettlementId" />
+		<result column="EMPLOYEE_ID" jdbcType="DECIMAL"
+			property="employeeId" />
+		<result column="DEPARTMENT_ID" jdbcType="DECIMAL"
+			property="departmentId" />
+		<result column="STATE" jdbcType="DECIMAL" property="state" />
+		<result column="IMPORT_DATE" jdbcType="TIMESTAMP"
+			property="importDate" />
+		<result column="PAY_DATE" jdbcType="TIMESTAMP"
+			property="payDate" />
+		<result column="TRUE_SALARY" jdbcType="DECIMAL"
+			property="trueSalary" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		SALARY_SETTLEMENT_ID, EMPLOYEE_ID, DEPARTMENT_ID, STATE,
+		IMPORT_DATE, PAY_DATE, TRUE_SALARY
+	</sql>
+
+
+	<select id="selectAll" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select distinct department_id
+		<include refid="Base_Column_List" />
+		from SALARY_SETTLEMENTS
+	</select>
+	<select id="selectAllDate" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select distinct IMPORT_DATE
+		from SALARY_SETTLEMENTS
+	</select>
+	
+	
+
+	<select id="selectDestinctDept" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from SALARY_SETTLEMENTS
+	</select>
+
+
+
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from SALARY_SETTLEMENTS
+		where SALARY_SETTLEMENT_ID =
+		#{salarySettlementId,jdbcType=DECIMAL}
+	</select>
+	<select id="selectBySelective" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from SALARY_SETTLEMENTS
+		<where>
+			1=1
+			<if test="salarySettlementId != null">
+				AND SALARY_SETTLEMENT_ID =
+				#{salarySettlementId,jdbcType=DECIMAL}
+			</if>
+			<if test="employeeId != null">
+				AND EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL}
+			</if>
+			<if test="departmentId != null">
+				AND DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL}
+			</if>
+			<if test="state != null">
+				AND STATE = #{state,jdbcType=DECIMAL}
+			</if>
+			<if test="importDate != null">
+				AND TRUNC(IMPORT_DATE,'MONTH') =
+				#{importDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="payDate != null">
+				AND PAY_DATE = #{payDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="trueSalary != null">
+				AND TRUE_SALARY = #{trueSalary,jdbcType=DECIMAL}
+			</if>
+		</where>
+	</select>
+
+
+
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		SALARY_SETTLEMENTS
+		where SALARY_SETTLEMENT_ID =
+		#{salarySettlementId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert"
+		parameterType="cn.com.smer.dao.dto.SalarySettlements">
+		insert into SALARY_SETTLEMENTS (SALARY_SETTLEMENT_ID,
+		EMPLOYEE_ID,
+		DEPARTMENT_ID,
+		STATE, IMPORT_DATE, PAY_DATE,
+		TRUE_SALARY)
+		values (#{salarySettlementId,jdbcType=DECIMAL},
+		#{employeeId,jdbcType=DECIMAL}, #{departmentId,jdbcType=DECIMAL},
+		#{state,jdbcType=DECIMAL}, #{importDate,jdbcType=TIMESTAMP},
+		#{payDate,jdbcType=TIMESTAMP},
+		#{trueSalary,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="cn.com.smer.dao.dto.SalarySettlements">
+		<selectKey keyProperty="salarySettlementId" order="BEFORE"
+			resultType="long" keyColumn="SALARY_SETTLEMENT_ID">
+			select salary_settlements_seq.NEXTVAL
+			from dual
+		</selectKey>
+		insert into SALARY_SETTLEMENTS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="salarySettlementId != null">
+				SALARY_SETTLEMENT_ID,
+			</if>
+			<if test="employeeId != null">
+				EMPLOYEE_ID,
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="importDate != null">
+				IMPORT_DATE,
+			</if>
+			<if test="payDate != null">
+				PAY_DATE,
+			</if>
+			<if test="trueSalary != null">
+				TRUE_SALARY,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="salarySettlementId != null">
+				#{salarySettlementId,jdbcType=DECIMAL},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				#{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=DECIMAL},
+			</if>
+			<if test="importDate != null">
+				#{importDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payDate != null">
+				#{payDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="trueSalary != null">
+				#{trueSalary,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="cn.com.smer.dao.dto.SalarySettlements">
+		update SALARY_SETTLEMENTS
+		<set>
+			<if test="employeeId != null">
+				EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+			</if>
+			<if test="departmentId != null">
+				DEPARTMENT_ID = #{departmentId,jdbcType=DECIMAL},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=DECIMAL},
+			</if>
+			<if test="importDate != null">
+				IMPORT_DATE = #{importDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payDate != null">
+				PAY_DATE = #{payDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="trueSalary != null">
+				TRUE_SALARY = #{trueSalary,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where SALARY_SETTLEMENT_ID = #{salarySettlementId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="cn.com.smer.dao.dto.SalarySettlements">
+		update SALARY_SETTLEMENTS
+		set EMPLOYEE_ID =
+		#{employeeId,jdbcType=DECIMAL},
+		DEPARTMENT_ID =
+		#{departmentId,jdbcType=DECIMAL},
+		STATE = #{state,jdbcType=DECIMAL},
+		IMPORT_DATE = #{importDate,jdbcType=TIMESTAMP},
+		PAY_DATE =
+		#{payDate,jdbcType=TIMESTAMP},
+		TRUE_SALARY =
+		#{trueSalary,jdbcType=DECIMAL}
+		where SALARY_SETTLEMENT_ID =
+		#{salarySettlementId,jdbcType=DECIMAL}
+	</update>
+	
+	
+</mapper>

@@ -1,0 +1,56 @@
+package cn.com.smer.service;
+
+
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import cn.com.smer.dao.dto.ImportProjects;
+import cn.com.smer.dao.inter.ImportProjectsMapper;
+import cn.com.smer.dtoform.ImportProjectsForm;
+
+@Service
+public class ImportProjectsService {
+	@Autowired
+	private ImportProjectsMapper ImportProjectsDao;
+	//导入项目录入
+	public boolean insertImport(ImportProjectsForm importProjectsForm) {
+		//数据的拷贝，要保证两个对象中的属性名一致
+		ImportProjects pro = new ImportProjects();
+		BeanUtils.copyProperties(importProjectsForm, pro);
+		int count = ImportProjectsDao.insertSelective(pro);
+		if(count == 1){
+			return true;
+		}else {
+			return false;
+		}
+	}
+	//直接查询
+	public List<ImportProjects> selectImportProjects(ImportProjectsForm importProjectsForm){
+		ImportProjects pro = new ImportProjects();
+		BeanUtils.copyProperties(importProjectsForm, pro);
+		return ImportProjectsDao.selectByInfo(pro);
+	}
+	//开始结束日期查
+	public List<ImportProjects> selectImportProjectsTwo(ImportProjectsForm importProjectsForm){
+		ImportProjects pro = new ImportProjects();
+		BeanUtils.copyProperties(importProjectsForm, pro);
+		return ImportProjectsDao.selectBySomething(pro);
+	}
+	
+	public ImportProjects selectImportProjectsById(Long importProjectId){
+		return ImportProjectsDao.selectByPrimaryKey(importProjectId);
+	}
+	public boolean updateImportProjects(ImportProjectsForm importProjectsForm) {
+		ImportProjects importProjects = new ImportProjects();
+		BeanUtils.copyProperties(importProjectsForm, importProjects);
+		int count = ImportProjectsDao.updateByPrimaryKeySelective(importProjects);
+		if(count == 1){
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+}

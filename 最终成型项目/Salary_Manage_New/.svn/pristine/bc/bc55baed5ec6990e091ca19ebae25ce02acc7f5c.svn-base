@@ -1,0 +1,17 @@
+package cn.com.smer.dao.inter;
+
+import cn.com.smer.dao.dto.Employees;
+
+public interface EmployeesMapper {
+    int deleteByPrimaryKey(Long employeeId);
+
+    int insert(Employees record);
+
+    int insertSelective(Employees record);
+
+    Employees selectByPrimaryKey(Long employeeId);
+
+    int updateByPrimaryKeySelective(Employees record);
+
+    int updateByPrimaryKey(Employees record);
+}
